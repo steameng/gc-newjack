@@ -37,6 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # local apps
+    'dsx',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +59,9 @@ ROOT_URLCONF = 'ds_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            #os.path.join(_module_dir, 'templates'), # i think makes the templates folder in each module recognized
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
