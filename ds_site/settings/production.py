@@ -1,5 +1,6 @@
 from django.conf import settings
 import os
+import dj_database_url
 
 DEBUG = False
 TEMPLATE_DEBUG = True
@@ -7,7 +8,8 @@ TEMPLATE_DEBUG = True
 DATABASES = settings.DATABASES
 
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
+
+
 DATABASES['default'] = dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
