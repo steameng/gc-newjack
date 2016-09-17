@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+_file_dir = os.path.dirname(__file__)
+_module_dir = os.path.split(_file_dir)[0]
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -60,7 +63,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            #os.path.join(_module_dir, 'templates'), # i think makes the templates folder in each module recognized
+            #os.path.join(BASE_DIR, 'templates')
+            os.path.join(_module_dir, 'templates'), # i think makes the templates folder in each module recognized; see code at top
         ],
         'APP_DIRS': True,
         'OPTIONS': {

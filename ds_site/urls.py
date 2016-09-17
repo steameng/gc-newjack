@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from dsx import views
+#from django.contrib.auth.decorators import login_required
+import dsx.views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.home, name='home'),
+    url(r'^$', dsx.views.home, name='home'),
 ]
