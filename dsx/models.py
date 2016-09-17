@@ -39,4 +39,4 @@ class Person(models.Model):
     #                             validators=[validators.RangeValidator(-180, 180)])
 
     def __unicode__(self):
-        return  "({}, <{}>)".format(self.username, self.email)
+        return  "{}, <{}>".format(self.username, self.email)
