@@ -5,6 +5,17 @@
   </head>
 
   <body>
-    <h1>Home Page dsx template</h1>
+  {% for message in messages %}
+    {% if message.tags %}
+        {{ message }}
+    {% endif %}
+  {% endfor %}
+    <h1>Home Page dsx template; user: {{ user }} {{ user.email }}</h1>
+
+    <form method="post"> {% csrf_token %}
+      {{ form }}
+      <button type="submit" name="PersonForm">Submit</button>
+    </form>
+
   </body>
 </html>

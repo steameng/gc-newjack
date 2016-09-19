@@ -16,9 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 #from django.contrib.auth.decorators import login_required
+from django.conf.urls.static import static # if error this might be it
+from django.conf import settings
+
 import dsx.views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', dsx.views.home, name='home'),
+    url(r'^admin/', include(admin.site.urls), name="Admin"),
+    url(r'^$', dsx.views.HomePage.as_view(), name='HomePage'),
+    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='ContactPage'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

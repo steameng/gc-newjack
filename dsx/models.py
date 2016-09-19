@@ -5,12 +5,13 @@ import datetime
 class Person(models.Model):
     '''Look at BaseUserManager to figure out password'''
 
-
-    #created = models.DateField(default=datetime.date.today)
-    user_creation = models.DateTimeField(auto_now_add=True, auto_now=False) # only when created, never overwritten
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True) # can be saved over
+    user_creation = models.DateTimeField(auto_now_add=True, auto_now=False)  # only when created, never overwritten
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)  # can be saved over
     email = models.EmailField(unique=True, blank=True, null=True)
     username = models.CharField(max_length=60, unique=True, blank=True, null=True)
+
+    #created = models.DateField(default=datetime.date.today)
+
     #member_joined = models.DateField(blank=True, null=True)
     #email_optout = models.BooleanField(default=False)
     #obscode = models.CharField(max_length=6, unique=True, blank=True,

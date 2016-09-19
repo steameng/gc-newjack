@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact Page dsx</title>
+  </head>
+
+  <body>
+  {% for message in messages %}
+    {% if message.tags %}
+        {{ message }}
+    {% endif %}
+  {% endfor %}
+  {% if form_data %}
+    {{ form_data.first_name }}
+    {{ form_data.last_name }}
+    {{ form_data.email}}
+    {{ form_data.message }}
+  {% endif %}
+    <h1>Contact Page; user: {{ user }} {{ user.email }}</h1>
+
+    <form method="post"> {% csrf_token %}
+      {{ form }}
+      <button type="submit" name="ContactForm">Submit</button>
+    </form>
+
+  </body>
+</html>
