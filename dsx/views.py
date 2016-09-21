@@ -15,7 +15,7 @@ class HomePage(View):
 
     #if request.user.is_authenticated(): # you can show different content based on auth
     #    context = {'user': request.user, 'email': request.user.email}
-        return render(request, "home.html", {'form': form})
+        return render(request, "dsx/home.html", {'form': form})
 
     def post(self, request):
         form = PersonForm(request.POST)
@@ -27,7 +27,7 @@ class HomePage(View):
             messages.success(request, "Registration Success!")
             return redirect("HomePage") #maybe put conditional if user is authenticated
 
-        return render(request, "home.html", {'form': form})
+        return render(request, "dsx/home.html", {'form': form})
 
         #if form.is_valid():
             #instance = form.save(commit=False)
@@ -40,7 +40,7 @@ class ContactPage(View):
     '''
     def get(self, request):
         form = ContactForm()
-        return render(request, "contact.html", {'form': form})
+        return render(request, "dsx/contact.html", {'form': form})
 
     def post(self, request):
         form = ContactForm(request.POST)
@@ -59,5 +59,6 @@ class ContactPage(View):
             messages.success(request, "Contact Form Submitted, check your email")
             context = {'form': form, 'form_data': form_data}
             #return redirect("/contact/", {'form': form, 'form_data': form_data}) # you can use this instead
-            return render(request, "contact.html", context)
+            return render(request, "dsx/contact.html", context)
         return redirect("ContactPage")
+

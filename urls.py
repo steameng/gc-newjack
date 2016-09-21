@@ -18,13 +18,16 @@ from django.contrib import admin
 #from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static # if error this might be it
 from django.conf import settings
-
+import stage.urls
 import dsx.views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="Admin"),
     url(r'^$', dsx.views.HomePage.as_view(), name='HomePage'),
     url(r'^contact/$', dsx.views.ContactPage.as_view(), name='ContactPage'),
+    url(r'^stage/', include(stage.urls, 'stage', 'stage')),
+    # url(r'^bs_theme/$', dsx.views.BSTheme.as_view(), name='BSTheme'),
+    # url(r'^mat_starter/$', dsx.views.MatStarter.as_view(), name='MatStarter'),
 ]
 
 if settings.DEBUG:

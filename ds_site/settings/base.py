@@ -16,7 +16,7 @@ import os
 _file_dir = os.path.dirname(__file__)
 _module_dir = os.path.split(_file_dir)[0]
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,11 +25,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '3(bc&q3(nl*096$(6%-*cwxkiau&xn!zio*)8^-%pq$!pe!3#$'
 
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#  Email info, still testing
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'philip.manno@gmail.com'
+EMAIL_HOST_PASSWORD = 'Zatoichi22'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Application definition
 
@@ -44,6 +52,7 @@ INSTALLED_APPS = (
     # local apps
     'dsx',
     'common',
+    'stage',
 
 )
 
@@ -58,7 +67,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'ds_site.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -111,3 +120,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static") # where files are collected into; on product you have to change this to point to where the files go
+#STATIC_ROOT = os.path.join(_module_dir, 'static/')
+
+STATICFILES_DIRS = [                           # this is where your static files are being collected from
+    os.path.join(BASE_DIR, "static_local"),
+    #'/var/www/static/', # you can specify multiple sources
+    ]
+
+###this is where end user or staff files are going, repo for external people to upload files to your site
+### There is no MEDIAFILES_DIRS because it is the user who is the source of the files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media") # where user files are uploaded
+#MEDIA_ROOT = os.path.join(_module_dir, 'media/')
+
