@@ -24,3 +24,21 @@ class MatStarter(View):
 
     def post(self, request):
         return render(request, "stage/mat_starter.html")
+
+
+class Base(View):
+    '''Base template view'''
+    def get(self, request):
+        return render(request, "stage/base.html")
+
+    def post(self, request):
+        return render(request, "stage/base.html")
+
+class HomeStage(View):
+    '''Base template view'''
+    def get(self, request):
+        return render(request, "stage/homestage.html")
+
+    def post(self, request):
+        return render(request, "stage/homestage.html")
+

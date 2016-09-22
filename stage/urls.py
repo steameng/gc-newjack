@@ -26,6 +26,8 @@ urlpatterns = [
     # url(r'^contact/$', dsx.views.ContactPage.as_view(), name='ContactPage'),
     url(r'^bs_theme/$', views.BSTheme.as_view(), name='BSTheme'),
     url(r'^mat_starter/$', views.MatStarter.as_view(), name='MatStarter'),
+    url(r'^base/$', views.Base.as_view(), name='Base'),
+    url(r'^homestage/$', views.HomeStage.as_view(), name='HomeStage'),
 ]
 
 if settings.DEBUG:
