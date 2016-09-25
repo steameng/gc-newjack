@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
+    {% block css %}
+        {{ block.super }}
+        <style>body {padding-top:50px}</style>
+    {% endblock %}
+
     {% block content%}
+        {% include "navbar.html" %}
+    {% endblock %}
 
-    {% include "navbar.html" %}
-
+    {% block javascript %}
+        <script>jQuery(function(){jQuery('#nav_{% block nav_active %}home{% endblock %}').addClass('active');})</script>
     {% endblock %}

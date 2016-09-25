@@ -5,3 +5,8 @@
     {% include "navbar.html" %}
 
     {% endblock %}
+
+
+{% block javascript %}
+<script>jQuery(function(){jQuery('#nav_{% block nav_active %}home{% endblock %}').addClass('active');})</script>
+{% endblock %}
