@@ -20,11 +20,13 @@ from django.conf.urls.static import static # if error this might be it
 from django.conf import settings
 import stage.urls
 import dsx.views
+import views
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"), # admin urls
-    url(r'^$', dsx.views.HomePage.as_view(), name='home'),
-    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='contact'),
+    url(r'^$', dsx.views.Home.as_view(), name='Home'),
+    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
     url(r'^stage/', include(stage.urls, 'stage', 'stage')),
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
     # url(r'^bs_theme/$', dsx.views.BSTheme.as_view(), name='BSTheme'),

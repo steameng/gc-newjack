@@ -7,7 +7,7 @@ from django.conf import settings # pulling email settings
 
 
 # Create your views here.
-class HomePage(View):
+class Home(View):
     '''This View collects member registration data and saves it in the Person's Model
         via the PersonForm ModelForm'''
     def get(self, request):
@@ -25,13 +25,10 @@ class HomePage(View):
             form.save()
 
             messages.success(request, "Registration Success!")
-            return redirect("HomePage") #maybe put conditional if user is authenticated
+            return redirect("Home") #maybe put conditional if user is authenticated
 
         return render(request, "dsx/home.html", {'form': form})
 
-        #if form.is_valid():
-            #instance = form.save(commit=False)
-                #do some validation here
 
 class ContactPage(View):
     '''This View collects form data and also sends the user an email
@@ -46,19 +43,21 @@ class ContactPage(View):
         form = ContactForm(request.POST)
         if form.is_valid():
             form_data = form.cleaned_data
-            email = form_data['email']
-            first_name = form_data['first_name']
-            last_name = form_data['last_name']
             message = form_data['message']
             subject = 'Site contact form'
-
             from_email = settings.EMAIL_HOST_USER
-            to_email = [from_email]
-            send_mail(subject, message, from_email, to_email, fail_silently=False)
+            to_email = [form_data['email']]
+            # message=render_to_string(
+            #     "chet/email/resolved_report.txt", {'report': form_submit, 'submitter': report.submitter}),
+            # send_mail(
+            #     subject,
+            #     message,
+            #     from_email,
+            #     to_email,
+            #     fail_silently=False
+            # )
 
             messages.success(request, "Contact Form Submitted, check your email")
-            context = {'form': form, 'form_data': form_data}
-            #return redirect("/contact/", {'form': form, 'form_data': form_data}) # you can use this instead
-            return render(request, "dsx/contact.html", context)
-        return redirect("ContactPage")
+            return redirect("Home")
+        return redirect("Contact")
 

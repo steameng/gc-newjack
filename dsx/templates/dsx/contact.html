@@ -1,36 +1,42 @@
 {% extends 'dsx/base.html' %}
 {% load crispy_forms_tags %}
+{% load common_forms %}
 
     {% block css %}
         {{ block.super }}
         <!--<style></style>-->
     {% endblock %}
     {% block title %}Contact Us{% endblock %}
+    {% block messages %}
+        <div class="col-xs-4 col-xs-offset-4">
+            {{ block.super }}
+        </div>
+    {% endblock %}
 
     {% block content %}
         {{ block.super }}
 
-        <div class="container theme-showcase" role="main">
-            {% for message in messages %}
-                {% if message.tags %}
-                    {{ message }}
-                {% endif %}
-            {% endfor %}
+        <div class="" role="main">
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <div>
+                        <h1>Contact Page; user: {{ user }} {{ user.email }}</h1>
+                    </div>
+                <form method="post"> {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{ form.first_name|as_crispy_field }}
+                            {{ form.last_name|as_crispy_field }}
+                            {{ form.message|as_crispy_field }}
+                            {{ form.email|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit"/>
+                        </div>
 
-            {% if form_data %}
-                {{ form_data.first_name }}
-                {{ form_data.last_name }}
-                {{ form_data.email}}
-                {{ form_data.message }}
-            {% endif %}
-
-            <h1>Contact Page; user: {{ user }} {{ user.email }}</h1>
-
-            <form method="post"> {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" name="ContactForm">Submit</button>
-            </form>
-    </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
 
     {% endblock %}
 

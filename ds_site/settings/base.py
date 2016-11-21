@@ -48,11 +48,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # local apps
     'dsx',
     'common',
     'stage',
+
+    # third party apps
+    'crispy_forms',
+    'registration',
 
 )
 
@@ -73,7 +78,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            #os.path.join(BASE_DIR, 'templates')
+            os.path.join(BASE_DIR, 'templates'),
             os.path.join(_module_dir, 'templates'), # i think makes the templates folder in each module recognized; see code at top
         ],
         'APP_DIRS': True,
@@ -132,5 +137,13 @@ STATICFILES_DIRS = [                           # this is where your static files
 ### There is no MEDIAFILES_DIRS because it is the user who is the source of the files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media") # where user files are uploaded
-#MEDIA_ROOT = os.path.join(_module_dir, 'media/')
+#MEDIA_ROOT = os.path.join(_module_dir, 'media/') # might utilize this when you figure media uploads out
 
+# Crispy Form Template Version
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# Registration Redux Settings
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+SITE_ID = 1 # This is the index of the site registered in the 'Sites' Table in the admin
+LOGIN_REDIRECT_URL = '/'
