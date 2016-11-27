@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
     url(r'^stage/', include(stage.urls, 'stage', 'stage')),
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
+    url(r'^styleguide/$', dsx.views.StyleGuide.as_view(), name='StyleGuide'),
     # url(r'^bs_theme/$', dsx.views.BSTheme.as_view(), name='BSTheme'),
     # url(r'^mat_starter/$', dsx.views.MatStarter.as_view(), name='MatStarter'),
 ]

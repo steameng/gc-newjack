@@ -61,3 +61,8 @@ class ContactPage(View):
             return redirect("Home")
         return redirect("Contact")
 
+class StyleGuide(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        return render(request, "dsx/styleguide.html")
