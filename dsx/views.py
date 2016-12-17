@@ -11,24 +11,43 @@ class Home(View):
     '''This View collects member registration data and saves it in the Person's Model
         via the PersonForm ModelForm'''
     def get(self, request):
-        form = PersonForm()
-
+        form = ContactForm()
+        context = {'form': form}
     #if request.user.is_authenticated(): # you can show different content based on auth
     #    context = {'user': request.user, 'email': request.user.email}
-        return render(request, "dsx/home.html", {'form': form})
+        return render(request, "dsx/home.html", context)
 
     def post(self, request):
-        form = PersonForm(request.POST)
+        form = ContactForm(request.POST)
         if form.is_valid():
             #form_inst = form.save(commit=False)
             #do some customization to the fields here
             form.save()
-
             messages.success(request, "Registration Success!")
             return redirect("Home") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/home.html", context)
 
-        return render(request, "dsx/home.html", {'form': form})
+class About(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        form = ContactForm()
+        context = {'form': form}
+    #if request.user.is_authenticated(): # you can show different content based on auth
+    #    context = {'user': request.user, 'email': request.user.email}
+        return render(request, "dsx/about.html", context)
 
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #form_inst = form.save(commit=False)
+            #do some customization to the fields here
+            form.save()
+            messages.success(request, "Registration Success!")
+            return redirect("About") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/about.html", context)
 
 class ContactPage(View):
     '''This View collects form data and also sends the user an email
@@ -60,6 +79,93 @@ class ContactPage(View):
             messages.success(request, "Contact Form Submitted, check your email")
             return redirect("Home")
         return redirect("Contact")
+
+
+class FeatureOne(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        form = ContactForm()
+        context = {'form': form}
+    #if request.user.is_authenticated(): # you can show different content based on auth
+    #    context = {'user': request.user, 'email': request.user.email}
+        return render(request, "dsx/featureone.html", context)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #form_inst = form.save(commit=False)
+            #do some customization to the fields here
+            form.save()
+            messages.success(request, "Registration Success!")
+            return redirect("FeatureOne") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/featureone.html", context)
+
+
+class FeatureTwo(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        form = ContactForm()
+        context = {'form': form}
+    #if request.user.is_authenticated(): # you can show different content based on auth
+    #    context = {'user': request.user, 'email': request.user.email}
+        return render(request, "dsx/featuretwo.html", context)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #form_inst = form.save(commit=False)
+            #do some customization to the fields here
+            form.save()
+            messages.success(request, "Registration Success!")
+            return redirect("FeatureTwo") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/featuretwo.html", context)
+
+class FeatureThree(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        form = ContactForm()
+        context = {'form': form}
+    #if request.user.is_authenticated(): # you can show different content based on auth
+    #    context = {'user': request.user, 'email': request.user.email}
+        return render(request, "dsx/featurethree.html", context)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #form_inst = form.save(commit=False)
+            #do some customization to the fields here
+            form.save()
+            messages.success(request, "Registration Success!")
+            return redirect("FeatureThree") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/featurethree.html", context)
+
+
+class Pricing(View):
+    '''This View collects member registration data and saves it in the Person's Model
+        via the PersonForm ModelForm'''
+    def get(self, request):
+        form = ContactForm()
+        context = {'form': form}
+    #if request.user.is_authenticated(): # you can show different content based on auth
+    #    context = {'user': request.user, 'email': request.user.email}
+        return render(request, "dsx/pricing.html", context)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #form_inst = form.save(commit=False)
+            #do some customization to the fields here
+            form.save()
+            messages.success(request, "Registration Success!")
+            return redirect("Pricing") #maybe put conditional if user is authenticated
+        context = {'form': form}
+        return render(request, "dsx/pricing.html", context)
 
 class StyleGuide(View):
     '''This View collects member registration data and saves it in the Person's Model

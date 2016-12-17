@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Person
+from .models import Person, Contact
 
 class PersonForm(forms.ModelForm):
     class Meta:
@@ -14,8 +14,16 @@ class PersonForm(forms.ModelForm):
             raise forms.ValidationError("Please use a gmail account")
         return email
 
-class ContactForm(forms.Form):
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
-    message = forms.CharField()
+# class ContactForm(forms.Form):
+#     first_name = forms.CharField()
+#     last_name = forms.CharField()
+#     email = forms.EmailField()
+#     message = forms.CharField()
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['email', 'message', 'first_name', 'last_name']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 4}), # sizes the form field rows, you can also do cols
+        }

@@ -25,11 +25,20 @@ import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"), # admin urls
-    url(r'^$', dsx.views.Home.as_view(), name='Home'),
-    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
-    url(r'^stage/', include(stage.urls, 'stage', 'stage')),
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
+    url(r'^$', dsx.views.Home.as_view(), name='Home'),
+    url(r'^about/$', dsx.views.About.as_view(), name='About'),
+    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
+    url(r'^featureone/$', dsx.views.FeatureOne.as_view(), name='FeatureOne'),
+    url(r'^featuretwo/$', dsx.views.FeatureTwo.as_view(), name='FeatureTwo'),
+    url(r'^featurethree/$', dsx.views.FeatureThree.as_view(), name='FeatureThree'),
+    url(r'^pricing/$', dsx.views.Pricing.as_view(), name='Pricing'),
     url(r'^styleguide/$', dsx.views.StyleGuide.as_view(), name='StyleGuide'),
+
+
+    url(r'^stage/', include(stage.urls, 'stage', 'stage')), # stage pages
+
+
     # url(r'^bs_theme/$', dsx.views.BSTheme.as_view(), name='BSTheme'),
     # url(r'^mat_starter/$', dsx.views.MatStarter.as_view(), name='MatStarter'),
 ]
