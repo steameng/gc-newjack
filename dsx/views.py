@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect # Standard view rendering
-from .forms import PersonForm, ContactForm # Pulling in form information
+from .forms import PersonForm, ContactForm, UploadForm # Pulling in form information
 from django.views.generic import View # Standard View class
 from django.contrib import messages # for success and other message
 from django.core.mail import send_mail # to access send_mail function
 from django.conf import settings # pulling email settings
+from django.views.generic.edit import FormView
+from random import randint
+from scikits.audiolab import wavread, wavwrite
+from scipy import vstack
 
 
 # Create your views here.
@@ -81,26 +85,73 @@ class ContactPage(View):
         return redirect("Contact")
 
 
-class FeatureOne(View):
+class Upload(FormView):
     '''This View collects member registration data and saves it in the Person's Model
         via the PersonForm ModelForm'''
-    def get(self, request):
-        form = ContactForm()
+    form_class = UploadForm
+    template_name = 'upload.html'  # Replace with your template.
+    success_url = ''  # Replace with your URL or reverse().
+
+    def get(self, request, *args, **kwargs):
+        form = UploadForm()
         context = {'form': form}
     #if request.user.is_authenticated(): # you can show different content based on auth
     #    context = {'user': request.user, 'email': request.user.email}
-        return render(request, "dsx/featureone.html", context)
+        return render(request, "dsx/upload.html", context)
 
-    def post(self, request):
-        form = ContactForm(request.POST)
+    def post(self, request, *args, **kwargs):
+        file_name = []
+        def handle_uploaded_files(f): ###USE STATIC TAG FOR MEDIA ROOT
+            with open('/home/zato/Documents/sites/newjack/newjack/media/' + str(f), 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+                file_name.append(str(f))
+            return file_name
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('file_field')
         if form.is_valid():
-            #form_inst = form.save(commit=False)
-            #do some customization to the fields here
-            form.save()
-            messages.success(request, "Registration Success!")
-            return redirect("FeatureOne") #maybe put conditional if user is authenticated
-        context = {'form': form}
-        return render(request, "dsx/featureone.html", context)
+            for (i, f) in enumerate(files):
+                file_name = handle_uploaded_files(f)
+
+            #Put into function
+            #Get arrays of files that match regex
+            intros = filter(lambda x: 'intro' in x, file_name)
+            outros = filter(lambda y: 'outro' in y, file_name)
+            bridges = filter(lambda z: 'bridge' in z, file_name)
+
+            #Choose random file from list
+            intro = intros[randint(0, len(intros) - 1)]
+            bridge = bridges[randint(0, len(bridges) - 1)]
+            outro = outros[randint(0, len(outros) - 1)]
+
+            #Read the files
+            intro_wav, fs, enc = wavread(intro) #you will have to put file paths onto this
+            bridge_wav, fs, enc = wavread(bridge)
+            outro_wav, fs, enc = wavread(outro)
+
+            #Stack the files into one file
+            wave_file = vstack((intro_wav, bridge_wav, outro_wav))
+
+            #Write the file to Media Dir
+            wavwrite(wave_file, '/home/zato/Documents/sites/newjack/newjack/media/wave_file.wav', fs, enc) # will have to change absolute path for server
+
+            #wave_file = intro + '_' + bridge + '_' + outro
+
+            messages.success(request, "Passed, check files")
+            context = {
+                        'form': form,
+                        'file_name': file_name,
+                        'intro': intro,
+                        'bridge': bridge,
+                        'outro': outro,
+                        'wave_file': wave_file,
+                    }
+            return render(request, "dsx/upload.html", context)
+            #return redirect("Upload")
+        else:
+            return self.form_invalid(form)
 
 
 class FeatureTwo(View):

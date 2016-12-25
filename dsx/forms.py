@@ -27,3 +27,8 @@ class ContactForm(forms.ModelForm):
         widgets = {
             'message': forms.Textarea(attrs={'rows': 4}), # sizes the form field rows, you can also do cols
         }
+
+class UploadForm(forms.Form):
+    file_field = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True})
+        )

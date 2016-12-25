@@ -1,0 +1,70 @@
+{% extends 'dsx/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+    {% block css %}
+        {{ block.super }}
+            <style>
+            .mytext !important{
+                font-family:FaktProSoft,Helvetica Neue,helvetica,arial,sans-serif
+            }
+            </style>
+    {% endblock %}
+    {% block title %}Upload{% endblock %}
+    {% block messages %}
+        <div class="col-xs-12">
+            {{ block.super }}
+        </div>
+    {% endblock %}
+
+    {% block content %}
+        {{ block.super }}
+
+    <div class="jumbotron">
+        <div class="container theme-showcase" role="main">
+            <div class="starter-template">
+                <h1>Upload</h1>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <form method="post" action="../upload/" enctype="multipart/form-data"> {% csrf_token %}
+                            {{ form.file_field|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% if file_name %}
+            <div class="row">
+                {% for file in file_name %}
+                    <a href="/media/{{file}}" download>here</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if intro %}
+            <div class="row">
+                    <a href="/media/{{intro}}" download>{{intro}}</a>
+            </div>
+            {% endif %}
+            {% if bridge %}
+            <div class="row">
+                    <a href="/media/{{bridge}}" download>{{bridge}}</a>
+            </div>
+            {% endif %}
+            {% if outro %}
+            <div class="row">
+                    <a href="/media/{{outro}}" download>{{outro}}</a>
+            </div>
+            {% endif %}
+            {% if wave_file %}
+            <div class="row">
+                <a href="/media/{{wave_file}}" download>wave_file</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    {% endblock %}
+
+    {% block nav_active %}home{% endblock %}
