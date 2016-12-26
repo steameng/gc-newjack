@@ -118,21 +118,27 @@ class Upload(FormView):
             #Put into function
             #Get arrays of files that match regex
             intros = filter(lambda x: 'intro' in x, file_name)
-            outros = filter(lambda y: 'outro' in y, file_name)
+            verses = filter(lambda w: 'verse' in w, file_name)
+            # outros = filter(lambda y: 'outro' in y, file_name)
             bridges = filter(lambda z: 'bridge' in z, file_name)
+            fillers = filter(lambda u: 'filler' in u, file_name)
 
             #Choose random file from list
             intro = intros[randint(0, len(intros) - 1)]
+            verse = verses[randint(0, len(verses) - 1)]
             bridge = bridges[randint(0, len(bridges) - 1)]
-            outro = outros[randint(0, len(outros) - 1)]
+            # outro = outros[randint(0, len(outros) - 1)]
+            filler = fillers[randint(0, len(fillers) - 1)]
 
             #Read the files
-            intro_wav, fs, enc = wavread(intro) #you will have to put file paths onto this
-            bridge_wav, fs, enc = wavread(bridge)
-            outro_wav, fs, enc = wavread(outro)
+            intro_wav, fs, enc = wavread('/home/zato/Documents/sites/newjack/testfiles/newjack/wav/' + intro) #you will have to put file paths onto this
+            bridge_wav, fs, enc = wavread('/home/zato/Documents/sites/newjack/testfiles/newjack/wav/' + bridge)
+            verse_wav, fs, enc = wavread('/home/zato/Documents/sites/newjack/testfiles/newjack/wav/' + verse)
+            # outro_wav, fs, enc = wavread(outro)
+            filler_wav, fs, enc = wavread('/home/zato/Documents/sites/newjack/testfiles/newjack/wav/' + filler)
 
             #Stack the files into one file
-            wave_file = vstack((intro_wav, bridge_wav, outro_wav))
+            wave_file = vstack((intro_wav, verse_wav, filler_wav, bridge_wav))
 
             #Write the file to Media Dir
             wavwrite(wave_file, '/home/zato/Documents/sites/newjack/newjack/media/wave_file.wav', fs, enc) # will have to change absolute path for server
@@ -145,8 +151,9 @@ class Upload(FormView):
                         'file_name': file_name,
                         'intro': intro,
                         'bridge': bridge,
-                        'outro': outro,
-                        'wave_file': wave_file,
+                        'verse': verse,
+                        'filler': filler,
+                        # 'outro': outro,
                     }
             return render(request, "dsx/upload.html", context)
             #return redirect("Upload")

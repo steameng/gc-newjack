@@ -1,1 +1,1 @@
-web: gunicorn ds_site.wsgi
+web: gunicorn newjack.wsgi

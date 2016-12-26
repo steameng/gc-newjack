@@ -45,6 +45,16 @@
                     <a href="/media/{{intro}}" download>{{intro}}</a>
             </div>
             {% endif %}
+            {% if verse %}
+            <div class="row">
+                    <a href="/media/{{verse}}" download>{{verse}}</a>
+            </div>
+            {% endif %}
+            {% if filler %}
+            <div class="row">
+                    <a href="/media/{{filler}}" download>{{filler}}</a>
+            </div>
+            {% endif %}
             {% if bridge %}
             <div class="row">
                     <a href="/media/{{bridge}}" download>{{bridge}}</a>
@@ -55,11 +65,9 @@
                     <a href="/media/{{outro}}" download>{{outro}}</a>
             </div>
             {% endif %}
-            {% if wave_file %}
             <div class="row">
-                <a href="/media/{{wave_file}}" download>wave_file</a>
+                <a href="/media/wave_file.wav" download>wave_file</a>
             </div>
-            {% endif %}
         </div>
     </div>
 
