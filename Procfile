@@ -1,1 +1,1 @@
-web: gunicorn newjack.wsgi
+web: gunicorn ds_site.wsgi --log-file -
