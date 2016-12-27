@@ -25,4 +25,4 @@ virtualenv==15.0.3
 virtualenv-clone==0.2.6
 virtualenvwrapper==4.7.2
 whitenoise==3.2.1
-#scikits.audiolab==0.11.0
+scikits.audiolab==0.11.0
