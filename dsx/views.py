@@ -103,7 +103,7 @@ class Upload(FormView):
         file_name = []
 
         def handle_uploaded_files(f):  ###USE STATIC TAG FOR MEDIA ROOT
-            with open('/home/' + str(f), 'wb+') as destination:
+            with open('/home/lupin/Documents/mannowar/newjack/newjack/media/' + str(f), 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
                 file_name.append(str(f))
@@ -130,19 +130,15 @@ class Upload(FormView):
             filler = fillers[randint(0, len(fillers) - 1)]
 
             # Read the files
-            # intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
-            # bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
-            # verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
-            # filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
-            intro_wav = '/home/' + intro  # you will have to put file paths onto this
-            bridge_wav = '/home/' + bridge
-            verse_wav = '/home/' + verse
-            filler_wav = '/home/' + filler
+            intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
+            bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
+            verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
+            filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
 
             # Stack the files into one file
             infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
             # outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
-            outfile = '/home/wave_file.wav'
+            outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
 
             data = []
             for infile in infiles:
@@ -155,7 +151,6 @@ class Upload(FormView):
             for (i, infile) in enumerate(infiles):
                 output.writeframes(data[i][1])
             output.close()
-
 
             # wave_file = intro + '_' + bridge + '_' + outro
 
@@ -173,6 +168,91 @@ class Upload(FormView):
             # return redirect("Upload")
         else:
             return self.form_invalid(form)
+# class Upload(FormView):
+#     '''This View collects member registration data and saves it in the Person's Model
+#         via the PersonForm ModelForm'''
+#     form_class = UploadForm
+#     template_name = 'upload.html'  # Replace with your template.
+#     success_url = ''  # Replace with your URL or reverse().
+#
+#     def get(self, request, *args, **kwargs):
+#         form = UploadForm()
+#         context = {'form': form}
+#         # if request.user.is_authenticated(): # you can show different content based on auth
+#         #    context = {'user': request.user, 'email': request.user.email}
+#         return render(request, "dsx/upload.html", context)
+#
+#     def post(self, request, *args, **kwargs):
+#         file_name = []
+#
+#         def handle_uploaded_files(f):  ###USE STATIC TAG FOR MEDIA ROOT
+#             with open('/home/lupin/Documents/mannowar/newjack/newjack/media/' + str(f), 'wb+') as destination:
+#                 for chunk in f.chunks():
+#                     destination.write(chunk)
+#                 file_name.append(str(f))
+#             return file_name
+#
+#         form_class = self.get_form_class()
+#         form = self.get_form(form_class)
+#         files = request.FILES.getlist('file_field')
+#         if form.is_valid():
+#             for (i, f) in enumerate(files):
+#                 file_name = handle_uploaded_files(f)
+#
+#             # Put into function
+#             # Get arrays of files that match regex
+#             intros = filter(lambda x: 'intro' in x, file_name)
+#             verses = filter(lambda w: 'verse' in w, file_name)
+#             bridges = filter(lambda z: 'bridge' in z, file_name)
+#             fillers = filter(lambda u: 'filler' in u, file_name)
+#
+#             # Choose random file from list
+#             intro = intros[randint(0, len(intros) - 1)]
+#             verse = verses[randint(0, len(verses) - 1)]
+#             bridge = bridges[randint(0, len(bridges) - 1)]
+#             filler = fillers[randint(0, len(fillers) - 1)]
+#
+#             # Read the files
+#             intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
+#             bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
+#             verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
+#             filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
+#
+#
+#             # Stack the files into one file
+#             infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
+#             # outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+#             outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+#
+#             data = []
+#             for infile in infiles:
+#                 w = wave.open(infile, 'rb')
+#                 data.append([w.getparams(), w.readframes(w.getnframes())])
+#                 w.close()
+#
+#             output = wave.open(outfile, 'wb')
+#             output.setparams(data[0][0])
+#             for (i, infile) in enumerate(infiles):
+#                 output.writeframes(data[i][1])
+#             output.close()
+#
+#
+#             # wave_file = intro + '_' + bridge + '_' + outro
+#
+#             messages.success(request, "Passed, check files")
+#             context = {
+#                 'form': form,
+#                 'file_name': file_name,
+#                 'intro': intro,
+#                 'bridge': bridge,
+#                 'verse': verse,
+#                 'filler': filler,
+#                 # 'outro': outro,
+#             }
+#             return render(request, "dsx/upload.html", context)
+#             # return redirect("Upload")
+#         else:
+#             return self.form_invalid(form)
 
 
 # class Upload(FormView):
