@@ -103,7 +103,7 @@ class Upload(FormView):
         file_name = []
 
         def handle_uploaded_files(f):  ###USE STATIC TAG FOR MEDIA ROOT
-            with open('/home/lupin/Documents/mannowar/newjack/newjack/media/' + str(f), 'wb+') as destination:
+            with open('/media/' + str(f), 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
                 file_name.append(str(f))
