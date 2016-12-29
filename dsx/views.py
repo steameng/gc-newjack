@@ -142,7 +142,7 @@ class Upload(FormView):
             # Stack the files into one file
             infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
             # outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
-            outfile = '/tmp/wave_file.wav'
+            outfile = '/home/wave_file.wav'
 
             data = []
             for infile in infiles:
