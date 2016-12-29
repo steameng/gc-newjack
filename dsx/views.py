@@ -103,7 +103,7 @@ class Upload(FormView):
         file_name = []
 
         def handle_uploaded_files(f):  ###USE STATIC TAG FOR MEDIA ROOT
-            with open('/tmp/' + str(f), 'wb+') as destination:
+            with open('/home/' + str(f), 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
                 file_name.append(str(f))
@@ -134,10 +134,10 @@ class Upload(FormView):
             # bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
             # verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
             # filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
-            intro_wav = '/tmp/' + intro  # you will have to put file paths onto this
-            bridge_wav = '/tmp/' + bridge
-            verse_wav = '/tmp/' + verse
-            filler_wav = '/tmp/' + filler
+            intro_wav = '/home/' + intro  # you will have to put file paths onto this
+            bridge_wav = '/home/' + bridge
+            verse_wav = '/home/' + verse
+            filler_wav = '/home/' + filler
 
             # Stack the files into one file
             infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]

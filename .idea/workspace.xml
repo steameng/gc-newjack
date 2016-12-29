@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67b7b263-a621-45c1-a26c-df5fb31a169a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dsx/templates/dsx/upload.html" afterPath="$PROJECT_DIR$/dsx/templates/dsx/upload.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dsx/views.py" afterPath="$PROJECT_DIR$/dsx/views.py" />
     </list>
     <ignored path="parsec.iws" />
@@ -90,8 +89,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dsx/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="144" column="28" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="28" />
+            <state relative-caret-position="255">
+              <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
               <folding>
                 <element signature="e#0#71#0" expanded="true" />
               </folding>
@@ -135,8 +134,8 @@
         <option value="$PROJECT_DIR$/ds_site/settings/local.py" />
         <option value="$PROJECT_DIR$/ds_site/settings/production.py" />
         <option value="$PROJECT_DIR$/urls.py" />
-        <option value="$PROJECT_DIR$/dsx/views.py" />
         <option value="$PROJECT_DIR$/dsx/templates/dsx/upload.html" />
+        <option value="$PROJECT_DIR$/dsx/views.py" />
       </list>
     </option>
   </component>
@@ -804,8 +803,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dsx/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="144" column="28" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="28" />
+        <state relative-caret-position="255">
+          <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
           <folding>
             <element signature="e#0#71#0" expanded="true" />
           </folding>
