@@ -130,14 +130,19 @@ class Upload(FormView):
             filler = fillers[randint(0, len(fillers) - 1)]
 
             # Read the files
-            intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
-            bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
-            verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
-            filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
+            # intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
+            # bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
+            # verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
+            # filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
+            intro_wav = '/media/' + intro  # you will have to put file paths onto this
+            bridge_wav = '/media/' + bridge
+            verse_wav = '/media/' + verse
+            filler_wav = '/media/' + filler
 
             # Stack the files into one file
             infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
-            outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+            # outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+            outfile = '/media/wave_file.wav'
 
             data = []
             for infile in infiles:
