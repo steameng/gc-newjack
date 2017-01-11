@@ -114,14 +114,20 @@ class Upload(FormView):
         files = request.FILES.getlist('file_field')
         if form.is_valid():
             for (i, f) in enumerate(files):
-                file_name = handle_uploaded_files(f)
+                # file_name = handle_uploaded_files(f)
+                file_name.append(f)
+
 
             # Put into function
             # Get arrays of files that match regex
-            intros = filter(lambda x: 'intro' in x, file_name)
-            verses = filter(lambda w: 'verse' in w, file_name)
-            bridges = filter(lambda z: 'bridge' in z, file_name)
-            fillers = filter(lambda u: 'filler' in u, file_name)
+            # intros = filter(lambda x: 'intro' in x, file_name)
+            # verses = filter(lambda w: 'verse' in w, file_name)
+            # bridges = filter(lambda z: 'bridge' in z, file_name)
+            # fillers = filter(lambda u: 'filler' in u, file_name)
+            intros = filter(lambda x: 'intro' in x.name, file_name)
+            verses = filter(lambda w: 'verse' in w.name, file_name)
+            bridges = filter(lambda z: 'bridge' in z.name, file_name)
+            fillers = filter(lambda u: 'filler' in u.name, file_name)
 
             # Choose random file from list
             intro = intros[randint(0, len(intros) - 1)]
@@ -130,13 +136,14 @@ class Upload(FormView):
             filler = fillers[randint(0, len(fillers) - 1)]
 
             # Read the files
-            intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
-            bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
-            verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
-            filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
+            # intro_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + intro  # you will have to put file paths onto this
+            # bridge_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + bridge
+            # verse_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + verse
+            # filler_wav = '/home/lupin/Documents/mannowar/newjack/newjack/media/' + filler
 
             # Stack the files into one file
-            infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
+            # infiles = [intro_wav, verse_wav, filler_wav, bridge_wav]
+            infiles = [intro, verse, filler, bridge]
             # outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
             outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
 

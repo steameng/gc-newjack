@@ -10,7 +10,6 @@ ez-setup==0.9
 gunicorn==19.6.0
 imageio==2.0.1
 moviepy==0.2.2.11
-music21==3.1.0
 pbr==1.10.0
 Pillow==3.4.2
 psycopg2==2.6.2
