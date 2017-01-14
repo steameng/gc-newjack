@@ -155,6 +155,11 @@ class Upload(FormView):
 
             output = wave.open(outfile, 'wb')
             output.setparams(data[0][0])
+            # output.writeframes(data[0][1])
+            # output.writeframes(data[1][1])
+            # output.writeframes(data[2][1])
+            # output.writeframes(data[3][1])
+            # output.close()
             for (i, infile) in enumerate(infiles):
                 output.writeframes(data[i][1])
             output.close()
