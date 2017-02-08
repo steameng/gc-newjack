@@ -20,12 +20,13 @@ from django.conf.urls.static import static # if error this might be it
 from django.conf import settings
 import stage.urls
 import dsx.views
-import views
+
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"), # admin urls
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
+    url(r'^login/$', 'django.contrib.auth.views.login', name='Login'),
     url(r'^$', dsx.views.Home.as_view(), name='Home'),
     url(r'^about/$', dsx.views.About.as_view(), name='About'),
     url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
@@ -34,6 +35,8 @@ urlpatterns = [
     url(r'^featurethree/$', dsx.views.FeatureThree.as_view(), name='FeatureThree'),
     url(r'^pricing/$', dsx.views.Pricing.as_view(), name='Pricing'),
     url(r'^styleguide/$', dsx.views.StyleGuide.as_view(), name='StyleGuide'),
+    url(r'^u/$', dsx.views.UserHomePage.as_view(), name='UserHomePage'),
+    url(r'^u/(?P<pk>\d+)/delete/$', dsx.views.DeleteSong.as_view(), name='DeleteSong'),
 
 
     url(r'^stage/', include(stage.urls, 'stage', 'stage')), # stage pages
