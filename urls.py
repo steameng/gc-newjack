@@ -20,7 +20,8 @@ from django.conf.urls.static import static # if error this might be it
 from django.conf import settings
 import stage.urls
 import dsx.views
-
+import u.views
+import u.urls
 
 
 urlpatterns = [
@@ -35,9 +36,9 @@ urlpatterns = [
     url(r'^featurethree/$', dsx.views.FeatureThree.as_view(), name='FeatureThree'),
     url(r'^pricing/$', dsx.views.Pricing.as_view(), name='Pricing'),
     url(r'^styleguide/$', dsx.views.StyleGuide.as_view(), name='StyleGuide'),
-    url(r'^u/$', dsx.views.UserHomePage.as_view(), name='UserHomePage'),
-    url(r'^u/(?P<pk>\d+)/delete/$', dsx.views.DeleteSong.as_view(), name='DeleteSong'),
-
+    url(r'^z/$', dsx.views.UserHomePage.as_view(), name='UserHomePage'),
+    url(r'^z/(?P<pk>\d+)/delete/$', dsx.views.DeleteSong.as_view(), name='DeleteSong'),
+    url(r'^u/', include((u.urls, 'u', 'u'))),
 
     url(r'^stage/', include(stage.urls, 'stage', 'stage')), # stage pages
 

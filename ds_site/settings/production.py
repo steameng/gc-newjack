@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'dsx',
     'common',
     'stage',
+    'u',
 
     # third party apps
     'crispy_forms',
