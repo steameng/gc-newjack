@@ -18,6 +18,11 @@
 
         <div class="" role="main">
             {{ form.non_field_errors }}
+            {% if song_created %}
+            <div class="row">
+                <a href="/media/wave_file.wav" download>wave_file</a>
+            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-xs-4 col-xs-offset-4">
                     <div>
@@ -53,7 +58,7 @@
                             {% for song_file in songfiles %}
                                <div class="checkbox">
                                 <label class="">
-                                    <input id="id_file_field_{{ song_file.id }}" type="checkbox" value="{{ song_file.id }}" name="{{ song_file.id }}">
+                                    <input id="id_file_field_{{ song_file.id }}" type="checkbox" value="{{ song_file.id }}" name="a__{{ song_file.id }}">
                                     {{ song_file.label }}
                                 </label>
                                </div>
@@ -105,6 +110,7 @@
                      </div>
                 </div>
             </div>
+
         </div>
 
     {% endblock %}

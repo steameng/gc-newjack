@@ -6,14 +6,18 @@ from django.conf import settings # pulling email settings
 from django.views.generic.edit import FormView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy
+from django.conf import settings
 
 
 from .forms import  UploadForm, USongUploadForm , UMediaUploadForm, USongChoiceField # UserMusicForm,
 from .models import UMusic, UMedia
 
+import os
+from os.path import basename
+
 from random import randint
 import wave
-from .mizer import randomizer
+from .mizer import randomizer, randomizer_uploads
 
 #from scikits.audiolab import wavread, wavwrite
 #from scipy import vstack
@@ -32,12 +36,75 @@ class UHome(View):
         usonguploadform = USongUploadForm()
         songs = UMusic.objects.filter(user=request.user) # , umedia__id__in=[5,6]
         songfiles = UMedia.objects.filter(user=request.user)  # potentially turn this into a method
-
+        song_created = False
         create = request.GET.get('usongfilechoiceform')
         a = request.GET
-        print a
+        if create:
+            file_list = [v for k, v in a.items() if 'a__' in k]
+            # print file_list
+            songfiles_list = UMedia.objects.filter(user=request.user, id__in=file_list)
+            # print songfiles_list
+            # form_files = []
+            # for (i, f) in enumerate(songfiles_list):
+            #     # form_files = handle_uploaded_files(f)
+            #     form_files.append(f.song_file)
 
+            # print form_files[0].path
+            # path = "/media/{}".format(form_files[0].name)
+            # file = open(form_files[0].path, "r")
+            # print file.read()
+            # print settings.MEDIA_ROOT
+            # print songfiles_list
+            # print songfiles_list[0].song_file.name
+            infiles = [
+                (v.song_file.path, "{}".format(basename(os.path.splitext(v.song_file.path)[0])))
+                for v in songfiles_list
+                ]
+            # print infiles
+            # file_label_list = ["{}".format(basename(os.path.splitext(v)[0])) for v in infiles]
+            # print file_label_list
 
+            # print infiles
+
+            # print ['something', None, 'somethingelse']
+            #
+            # tests = filter(lambda x: 'test' in x[1], infiles)
+            # fillers = filter(lambda x: 'filler' in x[1], infiles)
+            # verses = filter(lambda x: 'verse' in x[1], infiles)
+
+            # test = ''
+            # verse = ''
+            # filler = ''
+            # test = tests[randint(0, len(tests) - 1)]
+            # if verses:
+            #     verse = test[randint(0, len(verse) - 1)]
+            # if fillers:
+            #     filler = fillers[randint(0, len(fillers) - 1)]
+            # print filter(None, [test, filler, verse])
+
+            # intro = test[randint(0, len(test) - 1)]
+            # print intro
+            ### Variation of above
+            # test = [v for i, v in enumerate(infiles) if 'test' in v[1]]
+            # print test
+
+            infiles = randomizer(infiles)
+            print infiles
+            data = []
+            for (i, infile) in enumerate(infiles):
+                print infile[0]
+                w = wave.open(infile[0], 'rb')
+                data.append([w.getparams(), w.readframes(w.getnframes())])
+                w.close()
+
+            outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+            output = wave.open(outfile, 'wb')
+            output.setparams(data[0][0])
+            for (i, infile) in enumerate(infiles):
+                output.writeframes(data[i][1])
+            output.close()
+            messages.success(request, "Your song has been created")
+            song_created = True
 
 
         context= {
@@ -47,6 +114,7 @@ class UHome(View):
             'songfiles': songfiles,
             'usonguploadform': usonguploadform,
             'usongchoicefield': usongchoicefield,
+            'song_created': song_created,
             }
         return render(request, "u/home.html", context)
 
@@ -176,7 +244,7 @@ class Upload(FormView):
                 form_files.append(f)
 
             ### Contstruct Output
-            infiles = randomizer(form_files)
+            infiles = randomizer_uploads(form_files)
             #### WRITE FILES DEF
 
             data = []
