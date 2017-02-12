@@ -19,14 +19,16 @@ from django.contrib import admin
 from django.conf.urls.static import static # if error this might be it
 from django.conf import settings
 
-import u.views
+import views
 
 
 
 urlpatterns = [
 
-    url(r'^$', u.views.UserHomePage.as_view(), name='Home'),
-    url(r'^(?P<pk>\d+)/delete/$', u.views.DeleteSong.as_view(), name='DeleteSong'),
+    url(r'^$', views.UHome.as_view(), name='Home'),
+    url(r'^upload/$', views.Upload.as_view(), name='Upload'),
+    url(r'^song/(?P<song_id>\d+)/$', views.USong.as_view(), name='Song'),
+    url(r'^(?P<pk>\d+)/delete/$', views.DeleteSong.as_view(), name='DeleteSong'),
 
 ]
 

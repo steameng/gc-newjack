@@ -17,44 +17,94 @@
         {{ block.super }}
 
         <div class="" role="main">
+            {{ form.non_field_errors }}
             <div class="row">
                 <div class="col-xs-4 col-xs-offset-4">
                     <div>
                         <h1>Welcome; user: {{ user }}</h1>
                     </div>
-                <form method="post"> {% csrf_token %}
-                    <div class="row">
-                        <div class="col-sm-12">
-                            {{ form.song_title|as_crispy_field }}
-                            <input class='btn btn-block btn-primary' type="submit" value="Submit"/>
-                        </div>
+                    <div class="col-xs-12 col-xs-offset-12">
+                        <p>Song with SongFiles</p>
+                        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                                {{ usonguploadform.file_field|as_crispy_field }}
+                                {{ usonguploadform.song_title|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songupload"/>
+                        </form>
                     </div>
-                </form>
+                    <div class="col-xs-12 col-xs-offset-12">
+                        <p>Song Files Only</p>
+                        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                                {{ umediauploadform.file_field|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfile"/>
+                        </form>
+                    </div>
+                    <div class="col-xs-12 col-xs-offset-12">
+                        <p>ChoiceField</p>
+                        <form method="post"> {% csrf_token %}
+                                {{ usongchoicefield.file_field|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfilechoicefield"/>
+                        </form>
+                    </div>
+
+                    <div class="col-xs-12 col-xs-offset-12">
+                        <p>Custom ChoiceField Form</p>
+                        <form method="get">
+                           <div class="controls">
+                            {% for song_file in songfiles %}
+                               <div class="checkbox">
+                                <label class="">
+                                    <input id="id_file_field_{{ song_file.id }}" type="checkbox" value="{{ song_file.id }}" name="{{ song_file.id }}">
+                                    {{ song_file.label }}
+                                </label>
+                               </div>
+                            {% endfor %}
+                            </div>
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="usongfilechoiceform"/>
+                        </form>
+                    </div>
+
+
+
+                   <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <th>Song Title</th>
+                            </thead>
+                            <tbody>
+                            {% for song in songs %}
+                                <tr>
+                                    <td><a href="{{ song.get_absolute_url }}">{{ song.song_title }}</a></td>
+                                        <form action="{% url 'u:DeleteSong' song.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-default">
+                                                <span class="">{{ song.id }}</span>
+                                            </button>
+                                        </form>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                     <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <th>Song File</th>
+                            </thead>
+                            <tbody>
+                                {% for song_file in songfiles %}
+                                    <tr>
+                                        <td>{{ song_file.label }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                     </div>
                 </div>
-                   <div class="col-xs-3">
-                <table class="table">
-                    <thead>
-                        <th>Song Title</th>
-                    </thead>
-                    <tbody>
-                    {% for record in data %}
-                        <tr>
-                            <td>{{ record.song_title }}</td>
-                                <form action="{% url 'u:DeleteSong' record.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-default">
-                                        <span class="">{{ record.id }}</span>
-                                    </button>
-                                </form>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
-            </div>
-
-
-
         </div>
 
     {% endblock %}

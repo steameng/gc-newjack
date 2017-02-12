@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Person, Contact, UserMusic
+from .models import Person, Contact
 
 class PersonForm(forms.ModelForm):
     class Meta:
@@ -33,9 +33,3 @@ class UploadForm(forms.Form):
         widget=forms.ClearableFileInput(attrs={'multiple': True})
         )
 
-
-class UserMusicForm(forms.ModelForm):
-    class Meta:
-        model = UserMusic
-        fields = ['song_title']
-        ## how to provide raised errors such as no blank song field

@@ -22,10 +22,12 @@ from django.conf import settings
 import views
 
 urlpatterns = [
-    # url(r'^$', dsx.views.HomePage.as_view(), name='HomePage'),
-    # url(r'^contact/$', dsx.views.ContactPage.as_view(), name='ContactPage'),
-    # url(r'^bs_theme/$', views.BSTheme.as_view(), name='BSTheme'),
-    # url(r'^mat_starter/$', views.MatStarter.as_view(), name='MatStarter'),
+
+    url(r'^$', views.Home.as_view(), name='Home'),
+    url(r'^about/$', views.About.as_view(), name='About'),
+    url(r'^contact/$', views.ContactPage.as_view(), name='Contact'),
+    url(r'^styleguide/$', views.StyleGuide.as_view(), name='StyleGuide'),
+
 ]
 
 if settings.DEBUG:

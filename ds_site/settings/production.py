@@ -29,7 +29,7 @@ SECRET_KEY = '3(bc&q3(nl*096$(6%-*cwxkiau&xn!zio*)8^-%pq$!pe!3#$'
 # https://docs.djangoproject.com/en/1.10/topics/http/views/#customizing-error-views
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # put in specific host when you know
 

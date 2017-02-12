@@ -22,30 +22,19 @@ import stage.urls
 import dsx.views
 import u.views
 import u.urls
-
+import dsx.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"), # admin urls
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
     url(r'^login/$', 'django.contrib.auth.views.login', name='Login'),
-    url(r'^$', dsx.views.Home.as_view(), name='Home'),
-    url(r'^about/$', dsx.views.About.as_view(), name='About'),
-    url(r'^contact/$', dsx.views.ContactPage.as_view(), name='Contact'),
-    url(r'^upload/$', dsx.views.Upload.as_view(), name='Upload'),
-    url(r'^featuretwo/$', dsx.views.FeatureTwo.as_view(), name='FeatureTwo'),
-    url(r'^featurethree/$', dsx.views.FeatureThree.as_view(), name='FeatureThree'),
-    url(r'^pricing/$', dsx.views.Pricing.as_view(), name='Pricing'),
-    url(r'^styleguide/$', dsx.views.StyleGuide.as_view(), name='StyleGuide'),
-    url(r'^z/$', dsx.views.UserHomePage.as_view(), name='UserHomePage'),
-    url(r'^z/(?P<pk>\d+)/delete/$', dsx.views.DeleteSong.as_view(), name='DeleteSong'),
+
+    url(r'^', include((dsx.urls, 'dsx', 'dsx'))),
     url(r'^u/', include((u.urls, 'u', 'u'))),
+    url(r'^/stage/', include(stage.urls, 'stage', 'stage')), # stage pages
 
-    url(r'^stage/', include(stage.urls, 'stage', 'stage')), # stage pages
+    ]
 
-
-    # url(r'^bs_theme/$', dsx.views.BSTheme.as_view(), name='BSTheme'),
-    # url(r'^mat_starter/$', dsx.views.MatStarter.as_view(), name='MatStarter'),
-]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
