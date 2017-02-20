@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import UMusic, UMedia
+from django.core.exceptions import ValidationError
 
 
 # class UserForm(forms.ModelForm):
@@ -30,6 +31,15 @@ class UMediaUploadForm(forms.Form):
     file_field = forms.FileField(required=True, widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 
+
+class USongTitleForm(forms.Form):
+    song_title = forms.CharField(required=True, max_length=255)
+
+    def clean(self):
+        song_title = self.cleaned_data.get('song_title')
+        if not song_title:
+            raise ValidationError("Song title required")
+        return song_title
 
 
 

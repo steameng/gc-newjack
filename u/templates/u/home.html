@@ -1,14 +1,60 @@
-{% extends 'dsx/base.html' %}
+{% extends 'u/base.html' %}
+{% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load common_forms %}
 
     {% block css %}
         {{ block.super }}
         <!--<style></style>-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/application.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'css/contextmenu.css' %}" rel="stylesheet">
+
+    <style>
+    .draw2d_InputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+    }
+    .draw2d_OutputPort{
+        fill:#F7F7F7;
+        stroke:#d7d7d7;
+        }
+    </style>
+{% endblock %}
+
+    {% block js %}
+        {{ block.super }}
+
+        <script src=" {% static 'js/shifty.js' %}"></script>
+        <script src=" {% static 'js/raphael.js' %}"></script>
+        <script src=" {% static 'js/jquery.autoresize.js' %}"></script>
+        <script src=" {% static 'js/jquery-touch_punch.js' %}"></script>
+        <script src=" {% static 'js/jquery.contextmenu.js' %}"></script>
+        <script src=" {% static 'js/rgbcolor.js' %}"></script>
+        <script src=" {% static 'js/StackBlur.js' %}"></script>
+        <script src=" {% static 'js/canvg.js' %}"></script>
+        <script src=" {% static 'js/Class.js' %}"></script>
+        <script src=" {% static 'js/json2.js' %}"></script>
+        <script src=" {% static 'js/pathfinding-browser.min.js' %}"></script>
+        <script src=" {% static 'js/draw2d.js' %}"></script>
+        <script src=" {% static 'js/jquery.browser.js' %}"></script>
+        <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script src=" {% static 'js/Application.js' %}"></script>
+        <script src=" {% static 'js/View.js' %}"></script>
+        <script src=" {% static 'js/Toolbar.js' %}"></script>
+        <script src=" {% static 'js/TableShape.js' %}"></script>
+        <script src=" {% static 'js/newjack.js' %}"></script>
+        <script src=" {% static 'js/BetweenFigure.js' %}"></script>
+        <script src=" {% static 'js/MyInterceptorPolicy.js' %}"></script>
+        <script src=" {% static 'js/CopyInterceptorPolicy.js' %}"></script>
+
+
+        <script src=" {% static 'js/draw2dheaderjs.js' %}"></script>
     {% endblock %}
+
     {% block title %}Your HP{% endblock %}
     {% block messages %}
-        <div class="col-xs-4 col-xs-offset-4">
+        <div class="col-xs-8 col-xs-offset-2">
             {{ block.super }}
         </div>
     {% endblock %}
@@ -18,100 +64,47 @@
 
         <div class="" role="main">
             {{ form.non_field_errors }}
-            {% if song_created %}
             <div class="row">
-                <a href="/media/wave_file.wav" download>wave_file</a>
-            </div>
-            {% endif %}
-            <div class="row">
-                <div class="col-xs-4 col-xs-offset-4">
+                <div class="col-xs-12">
                     <div>
-                        <h1>Welcome; user: {{ user }}</h1>
+                        <lead>Welcome; user: {{ user }}</lead>
                     </div>
-                    <div class="col-xs-12 col-xs-offset-12">
-                        <p>Song with SongFiles</p>
-                        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-                                {{ usonguploadform.file_field|as_crispy_field }}
-                                {{ usonguploadform.song_title|as_crispy_field }}
-                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songupload"/>
-                        </form>
-                    </div>
-                    <div class="col-xs-12 col-xs-offset-12">
-                        <p>Song Files Only</p>
-                        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-                                {{ umediauploadform.file_field|as_crispy_field }}
-                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfile"/>
-                        </form>
-                    </div>
-                    <div class="col-xs-12 col-xs-offset-12">
-                        <p>ChoiceField</p>
-                        <form method="post"> {% csrf_token %}
-                                {{ usongchoicefield.file_field|as_crispy_field }}
-                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfilechoicefield"/>
-                        </form>
-                    </div>
-
-                    <div class="col-xs-12 col-xs-offset-12">
-                        <p>Custom ChoiceField Form</p>
-                        <form method="get">
-                           <div class="controls">
-                            {% for song_file in songfiles %}
-                               <div class="checkbox">
-                                <label class="">
-                                    <input id="id_file_field_{{ song_file.id }}" type="checkbox" value="{{ song_file.id }}" name="a__{{ song_file.id }}">
-                                    {{ song_file.label }}
-                                </label>
-                               </div>
-                            {% endfor %}
-                            </div>
-                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="usongfilechoiceform"/>
-                        </form>
-                    </div>
-
-
-
-                   <div class="col-xs-12">
-                        <table class="table">
-                            <thead>
-                                <th>Song Title</th>
-                            </thead>
-                            <tbody>
-                            {% for song in songs %}
-                                <tr>
-                                    <td><a href="{{ song.get_absolute_url }}">{{ song.song_title }}</a></td>
-                                        <form action="{% url 'u:DeleteSong' song.id %}" method="POST">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-default">
-                                                <span class="">{{ song.id }}</span>
-                                            </button>
-                                        </form>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-
-
-
-                     <div class="col-xs-12">
-                        <table class="table">
-                            <thead>
-                                <th>Song File</th>
-                            </thead>
-                            <tbody>
-                                {% for song_file in songfiles %}
-                                    <tr>
-                                        <td>{{ song_file.label }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                     </div>
                 </div>
             </div>
-
         </div>
+           <div id="toolbar" class="navbar-default">
+           </div>
+
+           <div id="side-nav" >
+             <span id="logo">newjack</span>
+             <div id="layer_elements"></div>
+             <div id="layer_header" class="highlight panetitle blackgradient">
+                    <div data-shape="Wav"   class="palette_node_element draw2d_droppable" title="Drag &amp; drop a clip into the canvas...">Clip</div>
+                    <div data-shape="Branch"   class="palette_node_element draw2d_droppable" title="Drag &amp; drop a branch into the canvas...">Branch</div>
+             </div>
+           </div>
+
+           <div id="canvas" >
+           </div>
+           <pre id="json" hidden style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
+           <audio id="audio" preload="none" src="getSong.php?song=newjack&seed=1487562897000&pseed=1487562897000"></audio>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     {% endblock %}
 

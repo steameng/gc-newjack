@@ -26,6 +26,7 @@ import views
 urlpatterns = [
 
     url(r'^$', views.UHome.as_view(), name='Home'),
+    url(r'^old/$', views.UHomeOld.as_view(), name='HomeOld'),
     url(r'^upload/$', views.Upload.as_view(), name='Upload'),
     url(r'^song/(?P<song_id>\d+)/$', views.USong.as_view(), name='Song'),
     url(r'^(?P<pk>\d+)/delete/$', views.DeleteSong.as_view(), name='DeleteSong'),

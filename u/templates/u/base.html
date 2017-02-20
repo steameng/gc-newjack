@@ -5,6 +5,10 @@
         <style>body {padding-top: 50px}</style>
     {% endblock %}
 
+    {% block js %}
+        {{ block.super }}
+    {% endblock %}
+
     {% block content%}
         {% include "navbar.html" %}
     {% endblock %}

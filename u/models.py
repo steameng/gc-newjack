@@ -29,6 +29,7 @@ class UMusic(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)  # only when created, never overwritten
     last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)  # can be saved over
     song_title = models.CharField(verbose_name="Song Title", max_length=255, blank=False)
+    song_settings = models.TextField()
 
 
     def __unicode__(self):
