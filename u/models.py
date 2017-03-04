@@ -47,6 +47,8 @@ class UMedia(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)  # only when created, never overwritten
     song_file = models.FileField(upload_to=user_directory_path)
 
+    def get_absolute_url(self):
+        return self.song_file.path
 
     def __unicode__(self):
         return "{}".format(self.user)

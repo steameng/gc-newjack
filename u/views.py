@@ -42,6 +42,8 @@ class UHome(View):
         usongtitleform = USongTitleForm
         songs = UMusic.objects.filter(user=request.user) # , umedia__id__in=[5,6]
         songfiles = UMedia.objects.filter(user=request.user)  # potentially turn this into a method
+        testsong = songfiles[0]
+        testjson = {'name': 'phil', 'number': 1234}
 
 
 
@@ -50,6 +52,8 @@ class UHome(View):
             'songs': songs,
             'songfiles': songfiles,
             'usongtitleform': usongtitleform,
+            'testsong': testsong,
+            'testjson': json.dumps(testjson),
 
             }
         return render(request, "u/home.html", context)

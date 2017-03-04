@@ -28859,7 +28859,6 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
       return this.text;
     },
 
-
     /**
      * @method
      * Set the text for the label. Use \n for multiline text.
@@ -28890,7 +28889,6 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
 
       return this;
     },
-
 
 
     hitTest: function(x, y)
