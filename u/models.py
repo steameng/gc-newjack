@@ -29,14 +29,14 @@ class UMusic(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)  # only when created, never overwritten
     last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)  # can be saved over
     song_title = models.CharField(verbose_name="Song Title", max_length=255, blank=False)
-    song_settings = models.TextField()
+    song_json = models.TextField()
 
 
     def __unicode__(self):
         return "{}".format(self.user)
 
     def get_absolute_url(self):
-        return reverse("u:Song", kwargs={"song_id": self.id})
+        return reverse("u:USong", kwargs={"song_id": self.id})
 
 
 

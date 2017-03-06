@@ -24,32 +24,7 @@
 
     {% block js %}
         {{ block.super }}
-        <script type="text/javascript">var testjson = {{ testjson|safe }} </script>
-        <script src=" {% static 'js/shifty.js' %}"></script>
-        <script src=" {% static 'js/raphael.js' %}"></script>
-        <script src=" {% static 'js/jquery.autoresize.js' %}"></script>
-        <script src=" {% static 'js/jquery-touch_punch.js' %}"></script>
-        <script src=" {% static 'js/jquery.contextmenu.js' %}"></script>
-        <script src=" {% static 'js/rgbcolor.js' %}"></script>
-        <script src=" {% static 'js/StackBlur.js' %}"></script>
-        <script src=" {% static 'js/canvg.js' %}"></script>
-        <script src=" {% static 'js/Class.js' %}"></script>
-        <script src=" {% static 'js/json2.js' %}"></script>
-        <script src=" {% static 'js/pathfinding-browser.min.js' %}"></script>
-        <script src=" {% static 'js/draw2d.js' %}"></script>
-        <script src=" {% static 'js/jquery.browser.js' %}"></script>
-        <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
-        <script src=" {% static 'js/Application.js' %}"></script>
-        <script src=" {% static 'js/View.js' %}"></script>
-        <script src=" {% static 'js/Toolbar.js' %}"></script>
-        <script src=" {% static 'js/TableShape.js' %}"></script>
-        <script src=" {% static 'js/newjack.js' %}"></script>
-        <script src=" {% static 'js/BetweenFigure.js' %}"></script>
-        <script src=" {% static 'js/MyInterceptorPolicy.js' %}"></script>
-        <script src=" {% static 'js/CopyInterceptorPolicy.js' %}"></script>
 
-
-        <script src=" {% static 'js/draw2dheaderjs.js' %}"></script>
 
     {% endblock %}
 
@@ -65,49 +40,30 @@
 
         <div class="" role="main">
             {{ form.non_field_errors }}
-            <div class="row">
+
                 <div class="col-xs-12">
                     <div>
                         <lead>Welcome; user: {{ user }}</lead>
-                        <lead>{{ testjson }}</lead>
+
                     </div>
                 </div>
-            </div>
+                <div class="col-xs-6">
+                    <ul>SONGS</ul>
+                    {% for song in songs %}
+                        <ul><a href="{{ song.get_absolute_url }}">{{ song.song_title }}</a></ul>
+                        {% endfor %}
+                </div>
+
+                <div class="col-xs-6">
+                        <p>Song Files Only</p>
+                        <form action="{% url 'u:UploadSongFile' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                                {{ umediauploadform.file_field|as_crispy_field }}
+                            <input class='btn btn-block btn-primary' type="submit" value="Submit" name="songfile"/>
+                        </form>
+
+                </div>
+
         </div>
-
-           <div id="toolbar" class="navbar-default">
-                <button class="gray" onclick="document.getElementById('audio').play();">Playz</button>
-               <button class="gray" onclick="document.getElementById('audio').pause();">Pausez</button>
-               <button class="gray" onclick="document.getElementById('audio').src ='/media/{{ testsong.song_file.name }}';document.getElementById('audio').play();">Replayzz</button>
-           </div>
-
-           <div id="side-nav" >
-             <span id="logo">newjack</span>
-             <div id="layer_elements"></div>
-             <div id="layer_header" class="highlight panetitle blackgradient">
-                 <div data-shape="Branch" class="palette_node_element draw2d_droppable" title="Drag &amp;">Node</div>
-
-                 {% for song_file in songfiles %}
-                          <div data-shape="Wav" data-name="{{ song_file.label }}" data-file="{{ song_file.get_absolute_url }}" class="palette_node_element draw2d_droppable" title="Drag &amp;">
-                              {{ song_file.label }}
-                          <input id="id_file_field_{{ song_file.id }}" type="hidden" value="{{ song_file.id }}" name="a__c{{ forloop.counter }}__f{{ forloop.counter }}__equal"/>
-                          </div>
-
-                {% endfor %}
-             </div>
-           </div>
-
-           <div id="canvas" >
-           </div>
-           <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
-           <audio id="audio" preload="none" src="/media/{{ testsong.song_file.name }}"></audio>
-
-
-
-
-
-
-
 
 
 

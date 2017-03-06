@@ -27,9 +27,12 @@ urlpatterns = [
 
     url(r'^$', views.UHome.as_view(), name='Home'),
     url(r'^old/$', views.UHomeOld.as_view(), name='HomeOld'),
-    url(r'^upload/$', views.Upload.as_view(), name='Upload'),
-    url(r'^song/(?P<song_id>\d+)/$', views.USong.as_view(), name='Song'),
+    url(r'^uploadold/$', views.Upload.as_view(), name='Upload'),
+    url(r'^song/(?P<song_id>\d+)/$', views.USong.as_view(), name='USong'),
+    url(r'^song/$', views.USongNew.as_view(), name='USongNew'),
     url(r'^(?P<pk>\d+)/delete/$', views.DeleteSong.as_view(), name='DeleteSong'),
+    url(r'^upload/$', views.UploadSongFile.as_view(), name='UploadSongFile'),
+    url(r'^create/$', views.SaveSong.as_view(), name='SaveSong'),
 
 ]
 

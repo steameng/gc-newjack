@@ -3,9 +3,9 @@ from django.views.generic import View # Standard View class
 from django.contrib import messages # for success and other message
 from django.core.mail import send_mail # to access send_mail function
 from django.conf import settings # pulling email settings
-from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.edit import FormView, DeleteView, CreateView
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.conf import settings
 
 
@@ -90,7 +90,7 @@ class UHomeOld(View):
             print infiles
             data = []
             for (i, infile) in enumerate(infiles):
-                print infile[0]
+                # print infile[0]
                 w = wave.open(infile[0], 'rb')
                 data.append([w.getparams(), w.readframes(w.getnframes())])
                 w.close()
@@ -153,25 +153,85 @@ class UHomeOld(View):
             messages.error(request, 'error in submitting your form')
             return redirect("u:HomeOld")
 
+
 class USong(View):
     '''USong Page'''
+
     def get(self, request, song_id):
         if not request.user.is_authenticated():
             messages.info(request, "You have to Login")
             return redirect("Login")
-        usonguploadform = USongUploadForm()
+        umediauploadform = UMediaUploadForm()
         song = get_object_or_404(UMusic, user=request.user, id=song_id)
-        # data = UMusic.objects.get(user=request.user, id=song_id) # get_object_or_404
-        songfiles = UMedia.objects.filter(user=request.user, song=song)  # potentially turn this into a method
-        context= {
-            # 'form': form,
-            # 'umediaform': umediaform,
-            'song': song,
-            'songfiles': songfiles,
-            'usonguploadform': usonguploadform,
-            }
-        return render(request, "u/song.html", context)
+        song_json = json.loads(song.song_json)
+        songfiles = UMedia.objects.filter(user=request.user)  # potentially turn this into a method
 
+        # print song_json
+        context= {
+            'umediauploadform': umediauploadform,
+            'song': song,
+            'song_json': song_json,
+            'songfiles': songfiles,
+            }
+        return render(request, "u/usong.html", context)
+
+    def post(self, request):
+        pass
+
+class UploadSongFile(View):
+
+    def post(self, request):
+        form = UMediaUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            files = request.FILES.getlist('file_field')
+            for (i, song_file) in enumerate(files):
+                song_file = UMedia(song_file=song_file, user=request.user)
+                song_file.save()
+
+            messages.success(request, 'File(s) Uploaded')
+            return redirect("u:Home")
+
+class USongNew(View):
+    '''USongNew Page'''
+
+    def get(self, request):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
+        umediauploadform = UMediaUploadForm()
+        songfiles = UMedia.objects.filter(user=request.user)  # potentially turn this into a method
+
+        context= {
+            'umediauploadform': umediauploadform,
+            'songfiles': songfiles,
+            }
+        return render(request, "u/usongnew.html", context)
+
+    def post(self, request):
+        pass
+
+class SaveSong(View):
+    def post(self, request):
+        # print request.POST['savejson']
+        # print json.dumps(request.POST['savejson'])
+        song_title = request.POST['savesongtitle']
+        song_json = json.dumps(request.POST['savejson'])
+        #Update
+        try:
+            obj = UMusic.objects.get(song_title=song_title, user=request.user)
+            obj.song_json = song_json
+            obj.save()
+        #Create if doesn't exist
+        except UMusic.DoesNotExist:
+            obj = UMusic(song_title=song_title, song_json=song_json, user=request.user)
+            obj.save()
+        # instance, created = UMusic.objects.update_or_create(song_title=song_title, user=request.user)
+        # instance = UMusic(song_title=song_title, song_json=song_json, user=request.user)
+        # instance.save()
+        # print created
+        messages.success(request, "Song Saved")
+        # print json.loads(song_json)
+        return redirect('u:USong', song_id=obj.id)
 
 
 class DeleteSong(DeleteView):
@@ -179,6 +239,9 @@ class DeleteSong(DeleteView):
     success_url = reverse_lazy("u:Home")
 
 
+class PlaySong(View):
+    def post(self, request):
+        pass
 
 class Upload(FormView):
 
@@ -247,7 +310,26 @@ class Upload(FormView):
 
 
 
+class USongold(View):
+    '''USong Page'''
 
+    def get(self, request, song_id):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
+        usonguploadform = USongUploadForm()
+        song = get_object_or_404(UMusic, user=request.user, id=song_id)
+        # data = UMusic.objects.get(user=request.user, id=song_id) # get_object_or_404
+        songfiles = UMedia.objects.filter(user=request.user,
+                                          song=song)  # potentially turn this into a method
+        context = {
+            # 'form': form,
+            # 'umediaform': umediaform,
+            'song': song,
+            'songfiles': songfiles,
+            'usonguploadform': usonguploadform,
+        }
+        return render(request, "u/usong.html", context)
 
 
 

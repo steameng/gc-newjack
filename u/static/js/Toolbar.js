@@ -142,7 +142,6 @@ example.Toolbar = Class.extend({
 		this.deleteButton3  = $("<button class='gray'>Play</button>");
 		this.html.append(this.deleteButton3);
 		this.deleteButton3.click($.proxy(function(){
-		    alert("{{ user }}")
 			//alert(document.getElementById("audio").ended);
 			if (document.getElementById("audio").ended)
 			{
