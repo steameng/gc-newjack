@@ -7,7 +7,7 @@ from django.views.generic.edit import FormView, DeleteView, CreateView
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.conf import settings
-
+from django.http import HttpResponse
 
 from .forms import  UploadForm, USongUploadForm , UMediaUploadForm, USongChoiceField, USongTitleForm
 from .models import UMusic, UMedia
@@ -240,8 +240,29 @@ class DeleteSong(DeleteView):
 
 
 class PlaySong(View):
+
     def post(self, request):
-        pass
+        infiles = [
+                    '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/intro1.wav',
+                    '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/verse4.wav',
+                    '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/bridge3.wav'
+                   ]
+        data = []
+        for (i, infile) in enumerate(infiles):
+            # print infile[0]
+            w = wave.open(infile[0], 'rb')
+            data.append([w.getparams(), w.readframes(w.getnframes())])
+            w.close()
+        outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+        output = wave.open(outfile, 'wb')
+        output.setparams(data[0][0])
+        for (i, infile) in enumerate(infiles):
+            output.writeframes(data[i][1])
+        output.close()
+        messages.success(request, "Your song has been created")
+        song_created = True
+        return redirect("u:Home")
+
 
 class Upload(FormView):
 
