@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/delete/$', views.DeleteSong.as_view(), name='DeleteSong'),
     url(r'^upload/$', views.UploadSongFile.as_view(), name='UploadSongFile'),
     url(r'^create/$', views.SaveSong.as_view(), name='SaveSong'),
+    url(r'^play/$', views.playsong, name='PlaySong'),
 
 ]
 

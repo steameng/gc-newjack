@@ -63,12 +63,14 @@
 
                 </div>
             <div class="col-xs-6">
-                  <lead>
-                      <a href='/media/wave_file.wav' download>File</a>
-                  </lead>
+
             </div>
+             <div class="col-xs-6">
+                <p>Song Files Only</p>
 
-
+             <audio id="audio" preload="none" src="{% url 'u:PlaySong' %}"></audio>
+            <button class="gray" onclick="document.getElementById('audio').play();">Playz</button>
+            </div>
         </div>
 
 

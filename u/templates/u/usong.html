@@ -92,9 +92,24 @@
                     <input id="savesongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
                 </button>
                </form>
+               <form action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+                <button class="gray" onclick="
+
+                var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
+                if (songName)
+                {
+                document.getElementById('savenewsongtitle').setAttribute('value', songName);
+                }
+                document.getElementById('savenewjson').setAttribute('value', document.getElementById('json').innerHTML);
+                    ">SaveNew
+                    <input id="savenewjson" type="hidden" value="" name="savejson"/>
+                    <input id="savenewsongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
+                </button>
+               </form>
                <button class="gray" onclick="document.getElementById('audio').play();">Playz</button>
                <button class="gray" onclick="document.getElementById('audio').pause();">Pausez</button>
                <button class="gray" onclick="document.getElementById('audio').src ='/media/{{ song.song_file.name }}';document.getElementById('audio').play();">Replayzz</button>
+
            </div>
 
            <div id="side-nav" >
