@@ -28,6 +28,8 @@ class Migration(migrations.Migration):
                 ('creation_date', models.DateTimeField(auto_now_add=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
                 ('song_title', models.CharField(max_length=255, verbose_name=b'Song Title')),
+                ('song_json', models.TextField()),
+                ('song_seed', models.TextField()),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),

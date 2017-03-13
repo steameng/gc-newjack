@@ -17,7 +17,7 @@ import json
 import os
 from os.path import basename
 
-
+from algorythm import getwavs
 import wave
 
 
@@ -42,7 +42,7 @@ class UHome(View):
         usongtitleform = USongTitleForm
         songs = UMusic.objects.filter(user=request.user) # , umedia__id__in=[5,6]
         songfiles = UMedia.objects.filter(user=request.user)  # potentially turn this into a method
-        testsong = songfiles[0]
+        # testsong = songfiles[0]
         testjson = {'name': 'phil', 'number': 1234}
 
 
@@ -52,7 +52,7 @@ class UHome(View):
             'songs': songs,
             'songfiles': songfiles,
             'usongtitleform': usongtitleform,
-            'testsong': testsong,
+            # 'testsong': testsong,
             'testjson': json.dumps(testjson),
 
             }
@@ -216,20 +216,23 @@ class SaveSong(View):
         # print json.dumps(request.POST['savejson'])
         song_title = request.POST['savesongtitle']
         song_json = json.dumps(request.POST['savejson'])
+        song_seed = request.POST['saveseed']
         #Update
         try:
             obj = UMusic.objects.get(song_title=song_title, user=request.user)
             obj.song_json = song_json
+            obj.song_seed = song_seed
             obj.save()
+            messages.success(request, "Song Updated")
         #Create if doesn't exist
         except UMusic.DoesNotExist:
-            obj = UMusic(song_title=song_title, song_json=song_json, user=request.user)
+            obj = UMusic(song_title=song_title, song_json=song_json, song_seed=song_seed, user=request.user)
             obj.save()
+            messages.success(request, "Song Saved")
         # instance, created = UMusic.objects.update_or_create(song_title=song_title, user=request.user)
         # instance = UMusic(song_title=song_title, song_json=song_json, user=request.user)
         # instance.save()
         # print created
-        messages.success(request, "Song Saved")
         # print json.loads(song_json)
         return redirect('u:USong', song_id=obj.id)
 
@@ -261,12 +264,18 @@ class DeleteSong(DeleteView):
     #     output.close()
     #     messages.success(request, "Your song has been created")
     #     return redirect("u:Home")
-def playsong(request):
+def playsong(request, song_id, song_seed):
     infiles = [
         '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/intro1.wav',
         '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/verse4.wav',
         '/home/lupin/Documents/mannowar/newjack/newjack/media/user/mannowar/bridge3.wav'
     ]
+    #
+    # song = get_object_or_404(UMusic, user=request.user, id=song_id)
+    # song_json = json.loads(song.song_json)
+    # print song_id, song_seed, song_json
+    # infilez = getwavs(song_json, song_seed) # might have to make song_seed and int()
+
     data = []
     for (i, infile) in enumerate(infiles):
         # print infile[0]
@@ -282,7 +291,34 @@ def playsong(request):
 
     with open(outfile, 'r') as fp:
         songdata = fp.read()
-    messages.success(request, "Your song has been created")
+    # messages.success(request, "Your song has been created")
+    return HttpResponse(songdata, content_type='audio/wav')
+
+
+def playsongnew(request, song_id, song_seed):
+
+
+    song = get_object_or_404(UMusic, user=request.user, id=song_id)
+    song_json = json.loads(json.loads(song.song_json)) #have to figure this out, looks like django auto saves as string
+
+    infiles = getwavs(song_json, song_seed) # might have to make song_seed and int()
+    print "infiles: {}".format(infiles)
+    data = []
+    for (i, infile) in enumerate(infiles):
+        # print infile[0]
+        w = wave.open(infile, 'rb')
+        data.append([w.getparams(), w.readframes(w.getnframes())])
+        w.close()
+    outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+    output = wave.open(outfile, 'wb')
+    output.setparams(data[0][0])
+    for (i, infile) in enumerate(infiles):
+        output.writeframes(data[i][1])
+    output.close()
+
+    with open(outfile, 'r') as fp:
+        songdata = fp.read()
+    # messages.success(request, "Your song has been created")
     return HttpResponse(songdata, content_type='audio/wav')
 
 class Upload(FormView):

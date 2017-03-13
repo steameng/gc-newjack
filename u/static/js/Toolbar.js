@@ -183,8 +183,10 @@ example.Toolbar = Class.extend({
 		this.deleteButton5.click($.proxy(function(){
 			document.getElementById("audio").pause();
 			var test = new Date();
-			document.getElementById("seed").innerHTML = "Seed: " + test.getTime();
-			document.getElementById("audio").src = "getSong.php?song=" + document.getElementById("logo").innerHTML + "&seed=" + document.getElementById("seed").innerHTML.substr(6) + "&pseed=" + test.getTime();
+			var seed = test.getTime()
+			document.getElementById("useed").innerHTML = "Seed: " + seed;
+			document.getElementById("useed").setAttribute('value', seed);
+//			document.getElementById("audio").src = "getSong.php?song=" + document.getElementById("logo").innerHTML + "&seed=" + document.getElementById("seed").innerHTML.substr(6) + "&pseed=" + test.getTime();
 		},this));
 
 

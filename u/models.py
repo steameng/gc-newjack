@@ -30,6 +30,7 @@ class UMusic(models.Model):
     last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)  # can be saved over
     song_title = models.CharField(verbose_name="Song Title", max_length=255, blank=False)
     song_json = models.TextField()
+    song_seed = models.TextField()
 
 
     def __unicode__(self):

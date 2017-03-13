@@ -13,8 +13,8 @@
         <script src=" {% static 'js/jquery-1.7.2.min.js' %}"></script>
 
         {% include 'head_css.html' %}
-        {% block css %}{% endblock %}
-        {% block js %}{% endblock %}
+        {% block css %}{{ block.super }}{% endblock %}
+        {% block js %}{{ block.super }}{% endblock %}
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
@@ -41,6 +41,7 @@
     {% endblock %}
 
     {% block content %}
+    {{ block.super }}
 
     {% endblock %}
 
