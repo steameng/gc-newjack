@@ -22,7 +22,7 @@ example.Toolbar = Class.extend({
 		this.deleteButton7  = $("<button class='gray'>New</button>");
 		this.html.append(this.deleteButton7);
 		this.deleteButton7.click($.proxy(function(){
-			window.open("old/","_blank");
+			window.open("/u/song/new","_blank");
 		},this));
 		// Inject the LOAD Button
 		//
@@ -114,6 +114,24 @@ example.Toolbar = Class.extend({
 		this.redoButton.click($.proxy(function(){
 		    this.view.getCommandStack().redo();
 		},this));
+
+
+
+
+		// Inject SaveNEW Button
+		this.saveNewButton = $("<button class='gray'>SaveNEWz</button>");
+		this.html.append(this.saveNewButton);
+		this.saveNewButton.click($.proxy(function(){
+
+		var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
+                if (songName)
+                {
+                document.getElementById('savenewsongtitle').setAttribute('value', songName);
+                }
+                document.getElementById('savenewjson').setAttribute('value', document.getElementById('json').innerHTML);
+                document.getElementById('savenewseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
+		},this));
+
 
 		// Inject the DELETE Button
 		//

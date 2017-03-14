@@ -33,8 +33,6 @@ example.View = draw2d.Canvas.extend({
         figure.setCssClass($(droppedDomNode).data("file"));
 //        figure.userData = {'filepath': $(droppedDomNode).data("file")};
 
-//        figure.setFilename('somethingelse');
-
 
 
 

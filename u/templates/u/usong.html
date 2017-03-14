@@ -41,7 +41,7 @@
         <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
         <script src=" {% static 'js/Application.js' %}"></script>
         <script src=" {% static 'js/View.js' %}"></script>
-        <script src=" {% static 'js/Toolbar.js' %}"></script>
+        <script src=" {% static 'js/AlgoBaah.js' %}"></script>
         <script src=" {% static 'js/TableShape.js' %}"></script>
         <!--<script src=" {% static 'js/newjack.js' %}"></script>-->
         <script src=" {% static 'js/BetweenFigure.js' %}"></script>
@@ -77,32 +77,33 @@
 
            <div id="toolbar" class="navbar-default">
 
+                <form style="float: left;" action="{% url 'u:DeleteSong' song.id %}">
+                    <button type="submit" class="gray btn" style="color: #fff; background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%); border-color: #b92c28;">
+                        <span class="">Delete Song</span>
+                    </button>
+               </form>
 
-               <form action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
-                <button class="gray" onclick="
-                while (document.getElementById('savesongtitle').getAttribute('value') == '')
-			        {
-				        var songName = prompt('Save Song', document.getElementById('savesongtitle').getAttribute('value'));
-				        if (songName)
-                        {
-					    document.getElementById('savesongtitle').setAttribute('value', songName);
-				        }
-			        }
-                document.getElementById('savejson').setAttribute('value', document.getElementById('json').innerHTML);
-                document.getElementById('saveseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
-                    ">Savez</button>
+               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+                    <button class="gray" onclick="
+                        while (document.getElementById('savesongtitle').getAttribute('value') == '')
+                            {
+                                var songName = prompt('Save Song', document.getElementById('savesongtitle').getAttribute('value'));
+                                if (songName)
+                                {
+                                document.getElementById('savesongtitle').setAttribute('value', songName);
+                                }
+                            }
+                        document.getElementById('savejson').setAttribute('value', document.getElementById('json').innerHTML);
+                        document.getElementById('saveseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
+                    ">
+                    Save
+                    </button>
                     <input id="savejson" type="hidden" value="" name="savejson"/>
                     <input id="savesongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
                     <input id="saveseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
                </form>
-<form action="{% url 'u:PlaySong' song_id=song.id song_seed=14234 %}">
 
-                                        <button type="submit" class="btn btn-default">
-                                            <span class="">Playnew</span>
-                                        </button>
-                                    </form>
-
-               <form action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
                 <button class="gray" onclick="
                 var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
                 if (songName)
@@ -117,6 +118,9 @@
                     <input id="savenewseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
                </form>
 
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
 
                <button id="useed" class="gray" value="{{ song.song_seed }}" onclick="
                 var songName = prompt('Enter Seed',document.getElementById('useed').getAttribute('value'));
@@ -126,17 +130,50 @@
 				    document.getElementById('useed').setAttribute('value', songName);
 				var test = new Date();
 			    }">
-                   Seed: {{ song.song_seed }} </button>
-               <button class="gray" onclick="document.getElementById('audio').setAttribute('src', '/u/play/{{ song.id }}/' + document.getElementById('useed').getAttribute('value'));
-                    document.getElementById('audio').play();">Playz</button>
-               <button class="gray" onclick="document.getElementById('audio').pause();">Pausez</button>
-               <button class="gray" onclick="document.getElementById('audio').src ='/media/{{ song.song_file.name }}';document.getElementById('audio').play();">Replayzz</button>
+                   Seed: {{ song.song_seed }}
+               </button>
+
+               <button class="gray" onclick="
+                document.getElementById('audio').pause();
+                var test = new Date();
+                var seed = test.getTime()
+                document.getElementById('useed').innerHTML = 'Seed: ' + seed;
+                document.getElementById('useed').setAttribute('value', seed);
+                document.getElementById('audio').setAttribute('src', '');
+
+                ">
+                   Randomize
+               </button>
+
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
+               <span class='toolbar_delimiter'>&nbsp;</span>
+
+               <button class="gray" onclick="
+               if(document.getElementById('audio').getAttribute('src') == '')
+               {
+                 document.getElementById('audio').setAttribute('src', '/u/play/{{ song.id }}/' + document.getElementById('useed').getAttribute('value'));
+                 }
+                    document.getElementById('audio').play();">
+                   Play
+               </button>
+
+               <button class="gray" onclick="document.getElementById('audio').pause();">Pause</button>
+
+               <button class="gray" onclick="
+               document.getElementById('audio').setAttribute('src', '/u/play/{{ song.id }}/' + document.getElementById('useed').getAttribute('value'));
+               document.getElementById('audio').play();
+                ">
+                   Replay
+               </button>
+
+
 
 
            </div>
 
            <div id="side-nav" >
-             <span id="logo">newjack</span>
+             <span id="logo">{{ song.song_title }}</span>
              <div id="layer_elements"></div>
              <div id="layer_header" class="highlight panetitle blackgradient">
                  <div data-shape="Branch" data-name="Node" class="palette_node_element draw2d_droppable" title="Drag &amp; Drop">Node</div>
@@ -154,7 +191,7 @@
            <div id="canvas" >
            </div>
            <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
-           <audio id="audio" preload="none" src="{% url 'u:PlaySong' song_id=song.id song_seed=song.song_seed %}"></audio>
+           <audio id="audio" preload="none" src=""></audio>
 
 
 

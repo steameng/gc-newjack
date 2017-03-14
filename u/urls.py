@@ -22,27 +22,36 @@ from django.conf import settings
 import views
 
 
+##############################  URLS  #################################
 
 urlpatterns = [
 
     url(r'^$', views.UHome.as_view(), name='Home'),
-    url(r'^old/$', views.UHomeOld.as_view(), name='HomeOld'),
-    url(r'^uploadold/$', views.Upload.as_view(), name='Upload'),
     url(r'^song/(?P<song_id>\d+)/$', views.USong.as_view(), name='USong'),
-    url(r'^song/$', views.USongNew.as_view(), name='USongNew'),
-    url(r'^(?P<pk>\d+)/delete/$', views.DeleteSong.as_view(), name='DeleteSong'),
+    url(r'^song/new/$', views.USongNew.as_view(), name='USongNew'),
+    url(r'^song/delete/(?P<song_id>\d+)/$', views.DeleteSong.as_view(), name='DeleteSong'),
     url(r'^upload/$', views.UploadSongFile.as_view(), name='UploadSongFile'),
-    url(r'^create/$', views.SaveSong.as_view(), name='SaveSong'),
-    url(r'^play/(?P<song_id>\d+)/(?P<song_seed>\d+)/$', views.playsongnew, name='PlaySong'),
+    url(r'^song/save/$', views.SaveSong.as_view(), name='SaveSong'),
+    url(r'^play/(?P<song_id>\d+)/(?P<song_seed>\d+)/$', views.playsong, name='PlaySong'),
 
 ]
+
+
+##############################  DEBUG MODE  #################################
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
+##############################  PRODUCTION  #################################
+
 if not settings.DEBUG:
     urlpatterns += patterns('',
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     )
+
+
+#### GRAVEYARD
+    # url(r'^old/$', views.UHomeOld.as_view(), name='HomeOld'),
+    # url(r'^uploadold/$', views.Upload.as_view(), name='Upload'),

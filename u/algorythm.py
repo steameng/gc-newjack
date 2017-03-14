@@ -1,6 +1,10 @@
 import random
 
+
+##############################  ALGORYTHM  #################################
+
 def getpath(shpe, conn, end, seed):
+    '''Contructs Path'''
     path = []
     oupt = list(map((lambda x: x[1]), shpe))   # [x[1] for x in shpe]
     targ = list(map((lambda x: x[1]), conn))
@@ -44,9 +48,8 @@ def getpath(shpe, conn, end, seed):
 
 
 
-
-
 def getwavs(json, seed):
+    '''Get Files'''
     table_shpe = []
     table_conn = []
     data = json

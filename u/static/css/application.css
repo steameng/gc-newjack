@@ -35,12 +35,12 @@ body {
 
 #toolbar {
 	position: relative;
-	top: 700px;
+	top: 30px;
 	margin: 0px;
 	padding-top: 0px;
 	padding-left: 20px;
 	left: 160px;
-	height: 220px;
+	height: 40px;
 	right: 0px;
 	overflow: hidden !important;
 	z-index: 1000 !important;
