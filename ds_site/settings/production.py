@@ -103,12 +103,53 @@ WSGI_APPLICATION = 'ds_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 # refer to link about to change DB settings in production
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'gc-newjack',
+#         'USER': 'root',
+#         'PASSWORD': 'Hellsing22',
+#         'HOST': '',  # Set to empty string for localhost.
+#         'PORT': '',  # Set to empty string for default.
+#         #
+#         # 'ENGINE': 'django.db.backends.sqlite3',
+#         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+
+# [START db_setup]
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': 'newjack-steameng:us-central1:newjack-sql',
+            'NAME': 'gc-newjack',
+            'USER': 'newjack-sql',
+            'PASSWORD': 'Steameng1151',
+        }
     }
-}
+else:
+    # Running locally so connect to either a local MySQL instance or connect to
+    # Cloud SQL via the proxy. To start the proxy via command line:
+    #
+    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    #
+    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'gc-newjack',
+            'USER': 'root',
+            'PASSWORD': 'Hellsing22',
+        }
+    }
+# [END db_setup]
+
 
 
 # Internationalization

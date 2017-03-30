@@ -5,11 +5,9 @@ example.View = draw2d.Canvas.extend({
 	init:function(id)
     {
 		this._super(id, 2000,2000);
-
 		this.setScrollArea("#"+id);
 
 	},
-
 
     /**
      * @method
@@ -29,15 +27,19 @@ example.View = draw2d.Canvas.extend({
     {
         var type = $(droppedDomNode).data("shape");
         var figure = eval("new "+type+"();");
+        figure.addEntity("500");
+        figure.addEntity("50");
+        figure.setName($(droppedDomNode).data("name"));
+        figure.setCssClass($(droppedDomNode).data("file"));
+//        figure.userData = {'filepath': $(droppedDomNode).data("file")};
 
-        figure.addEntity("50");
-        figure.addEntity("50");
-        figure.setName("new"+type);
+
+
 
         // create a command for the undo/redo support
         var command = new draw2d.command.CommandAdd(this, figure, x, y);
         this.getCommandStack().execute(command);
     }
-    console.log(a);
+
 });
 

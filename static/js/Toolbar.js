@@ -22,7 +22,7 @@ example.Toolbar = Class.extend({
 		this.deleteButton7  = $("<button class='gray'>New</button>");
 		this.html.append(this.deleteButton7);
 		this.deleteButton7.click($.proxy(function(){
-			window.open("old/","_blank");
+			window.open("/u/song/new","_blank");
 		},this));
 		// Inject the LOAD Button
 		//
@@ -115,6 +115,24 @@ example.Toolbar = Class.extend({
 		    this.view.getCommandStack().redo();
 		},this));
 
+
+
+
+		// Inject SaveNEW Button
+		this.saveNewButton = $("<button class='gray'>SaveNEWz</button>");
+		this.html.append(this.saveNewButton);
+		this.saveNewButton.click($.proxy(function(){
+
+		var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
+                if (songName)
+                {
+                document.getElementById('savenewsongtitle').setAttribute('value', songName);
+                }
+                document.getElementById('savenewjson').setAttribute('value', document.getElementById('json').innerHTML);
+                document.getElementById('savenewseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
+		},this));
+
+
 		// Inject the DELETE Button
 		//
 		this.deleteButton  = $("<button class='gray'>Delete</button>");
@@ -142,7 +160,6 @@ example.Toolbar = Class.extend({
 		this.deleteButton3  = $("<button class='gray'>Play</button>");
 		this.html.append(this.deleteButton3);
 		this.deleteButton3.click($.proxy(function(){
-		    alert("{{ user }}")
 			//alert(document.getElementById("audio").ended);
 			if (document.getElementById("audio").ended)
 			{
@@ -184,8 +201,10 @@ example.Toolbar = Class.extend({
 		this.deleteButton5.click($.proxy(function(){
 			document.getElementById("audio").pause();
 			var test = new Date();
-			document.getElementById("seed").innerHTML = "Seed: " + test.getTime();
-			document.getElementById("audio").src = "getSong.php?song=" + document.getElementById("logo").innerHTML + "&seed=" + document.getElementById("seed").innerHTML.substr(6) + "&pseed=" + test.getTime();
+			var seed = test.getTime()
+			document.getElementById("useed").innerHTML = "Seed: " + seed;
+			document.getElementById("useed").setAttribute('value', seed);
+//			document.getElementById("audio").src = "getSong.php?song=" + document.getElementById("logo").innerHTML + "&seed=" + document.getElementById("seed").innerHTML.substr(6) + "&pseed=" + test.getTime();
 		},this));
 
 

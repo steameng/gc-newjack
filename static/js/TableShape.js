@@ -6,7 +6,6 @@ Wav = draw2d.shape.layout.VerticalLayout.extend({
     {
         this._super($.extend({bgColor:"#dbddde", color:"#d7d7d7", stroke:1, radius:3},attr));
 
-
         this.classLabel = new draw2d.shape.basic.Label({
             text:"ClassName",
             stroke:1,
@@ -40,74 +39,7 @@ Wav = draw2d.shape.layout.VerticalLayout.extend({
      */
     addEntity: function(txt, optionalIndex)
     {
-//          var label =new draw2d.shape.basic.Label({
-//              text:txt,
-//              stroke:0,
-//              radius:0,
-//              bgColor:null,
-//              padding:{left:10, top:3, right:10, bottom:5},
-//              fontColor:"#4a4a4a",
-//              resizeable:true,
-//              editor:new draw2d.ui.LabelEditor()
-//          });
 
-// //        label.installEditor(new draw2d.ui.LabelEditor());
-//          //var input = label.createPort("input");
-//          //var output= label.createPort("output");
-
-//          //input.setName("input_"+label.id);
-//          //output.setName("output_"+label.id);
-
-//          var _table=this;
-//          label.on("contextmenu", function(emitter, event){
-//              $.contextMenu({
-//                  selector: 'body',
-//                  events:
-//                  {
-//                      hide:function(){ $.contextMenu( 'destroy' ); }
-//                  },
-//                  callback: $.proxy(function(key, options)
-//                  {
-//                     switch(key){
-//                     case "rename":
-//                         setTimeout(function(){
-//                             emitter.onDoubleClick();
-//                         },10);
-//                         break;
-//                     case "new":
-//                         setTimeout(function(){
-//                             _table.addEntity("_new_").onDoubleClick();
-//                         },10);
-//                         break;
-//                     case "delete":
-//                         // with undo/redo support
-//                         var cmd = new draw2d.command.CommandDelete(emitter);
-//                         emitter.getCanvas().getCommandStack().execute(cmd);
-//                     default:
-//                         break;
-//                     }
-
-//                  },this),
-//                  x:event.x,
-//                  y:event.y,
-//                  items:
-//                  {
-//                      "rename": {name: "Rename"},
-//                      "new":    {name: "New Entity"},
-//                      "sep1":   "---------",
-//                      "delete": {name: "Delete"}
-//                  }
-//              });
-//          });
-
-//          if($.isNumeric(optionalIndex)){
-//              this.add(label, null, optionalIndex+1);
-//          }
-//          else{
-//              this.add(label);
-//          }
-
-//          return label;
     },
 
     /**
@@ -173,6 +105,7 @@ Wav = draw2d.shape.layout.VerticalLayout.extend({
 
          return memento;
      },
+
 
      /**
       * @method
@@ -484,6 +417,7 @@ Branch = draw2d.shape.layout.VerticalLayout.extend({
 
          return memento;
      },
+
 
      /**
       * @method

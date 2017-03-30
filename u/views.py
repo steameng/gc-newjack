@@ -11,6 +11,7 @@ from django.contrib import messages # for success and other message
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.views.generic.edit import FormView, DeleteView, CreateView
+from django.conf import settings
 
 from .forms import UMediaUploadForm
 from .models import UMusic, UMedia
@@ -49,7 +50,7 @@ def playsong(request, song_id, song_seed):
      Gets seed from last page seed value and magic'''
 
     song = get_object_or_404(UMusic, user=request.user, id=song_id)
-    song_json = json.loads(json.loads(song.song_json))
+    song_json = json.loads(song.song_json)
 
     infiles = getwavs(song_json, song_seed) # get paths from algorythm
 
@@ -59,7 +60,7 @@ def playsong(request, song_id, song_seed):
         data.append([w.getparams(), w.readframes(w.getnframes())])
         w.close()
 
-    outfile = '/home/lupin/Documents/mannowar/newjack/newjack/media/wave_file.wav'
+    outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
     output = wave.open(outfile, 'wb')
     output.setparams(data[0][0])
     for (i, infile) in enumerate(infiles):
@@ -101,7 +102,7 @@ class USong(View):
             return redirect("Login")
         umediauploadform = UMediaUploadForm()
         song = get_object_or_404(UMusic, user=request.user, id=song_id)
-        song_json = json.loads(song.song_json)
+        song_json = song.song_json
         songfiles = UMedia.objects.filter(user=request.user)
 
         context= {
@@ -137,7 +138,7 @@ class SaveSong(View):
 
     def post(self, request):
         song_title = request.POST['savesongtitle']
-        song_json = json.dumps(request.POST['savejson'])
+        song_json = request.POST['savejson']
         song_seed = request.POST['saveseed']
         # Update
         try:
