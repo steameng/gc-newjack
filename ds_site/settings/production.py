@@ -125,7 +125,7 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': 'newjack-steameng:us-central1:newjack-sql',
+            'HOST': '/cloudsql/newjack-steameng:us-central1:newjack-sql',
             'NAME': 'newjack',
             'USER': 'newjack-sql',
             'PASSWORD': 'Steameng1151',
