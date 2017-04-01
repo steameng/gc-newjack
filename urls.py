@@ -23,11 +23,12 @@ import dsx.views
 import u.views
 import u.urls
 import dsx.urls
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls), name="admin"), # admin urls
     url(r'^accounts/', include('registration.backends.default.urls')), # registration urls
-    url(r'^login/$', include('django.contrib.auth.views.login'), name='Login'),
+    url(r'^login/$', auth_views.login, name='Login'),
 
     url(r'^', include((dsx.urls, 'dsx', 'dsx'))),
     url(r'^u/', include((u.urls, 'u', 'u'))),
