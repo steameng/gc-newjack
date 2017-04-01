@@ -33,12 +33,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # put in specific host when you know
 
-ADMIN = (("Master", "philip.manno@gmail.com"),)
+ADMIN = (("Master", "newjack.steameng@gmail.com"),)
 
 #  Email info, still testing
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'philip.manno@gmail.com'
-EMAIL_HOST_PASSWORD = 'Hellsing22*'
+EMAIL_HOST_USER = 'newjack.steameng@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tapatios1151'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
