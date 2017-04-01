@@ -38,7 +38,7 @@ ADMIN = (("Master", "philip.manno@gmail.com"),)
 #  Email info, still testing
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'philip.manno@gmail.com'
-EMAIL_HOST_PASSWORD = 'Zatoichi22'
+EMAIL_HOST_PASSWORD = 'Hellsing22*'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
