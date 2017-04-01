@@ -24,8 +24,12 @@ class UPerson(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)  # only when created, never overwritten
     info = models.CharField(verbose_name='Song Title', max_length=255, blank=False)
 
+    class Meta:
+        db_table = 'u_person'
+
     def __unicode__(self):
         return '{}'.format(self.user)
+
 
 
 
@@ -38,6 +42,9 @@ class UMusic(models.Model):
     song_json = models.TextField()
     song_seed = models.TextField()
 
+    class Meta:
+        db_table = 'u_music'
+
     def __unicode__(self):
         return '{}'.format(self.user)
 
@@ -49,9 +56,12 @@ class UMusic(models.Model):
 class UMedia(models.Model):
     '''Table to store uploaded file'''
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    song = models.ManyToManyField(UMusic) # i think this can be deleted
+    # song = models.ManyToManyField(UMusic) # i think this can be deleted
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)
     song_file = models.FileField(upload_to=user_directory_path)
+
+    class Meta:
+        db_table = 'u_media'
 
     def get_absolute_url(self):
         return self.song_file.path
