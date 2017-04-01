@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # put in specific host when you know
 
-ADMIN = (("Master", "siteadmingroup@admin.com"),)
+ADMIN = (("Master", "philip.manno@gmail.com"),)
 
 #  Email info, still testing
 EMAIL_HOST = 'smtp.gmail.com'
