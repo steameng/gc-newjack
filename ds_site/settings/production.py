@@ -192,3 +192,8 @@ ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 SITE_ID = 1 # This is the index of the site registered in the 'Sites' Table in the admin
 LOGIN_REDIRECT_URL = '/u/'
+#
+# GOOGLE_CLOUD_STORAGE_BUCKET = '/newjack-steameng.appspot.com' # the name of the bucket you have created from the google cloud storage console
+# GOOGLE_CLOUD_STORAGE_URL = 'http://storage.googleapis.com/newjack-steameng.appspot.com' #whatever the ulr for accessing your cloud storgage bucket
+# GOOGLE_CLOUD_STORAGE_DEFAULT_CACHE_CONTROL = 'public, max-age: 7200' # default cache control headers for your files
+# DEFAULT_FILE_STORAGE = 'google.storage.googleCloud.GoogleCloudStorage'
