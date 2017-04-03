@@ -181,7 +181,8 @@ class UploadSongFile(View):
                 data.append([w.getparams(), w.readframes(w.getnframes())])
                 w.close()
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/wav', retry_params=write_retry_params)
-                gcs.writeframes(data[0][1])
+                gcs_file.writeframes(data[0][1])
+                # gcs_file.write()
                 gcs_file.close()
 
                 song_file = UMedia(song_file=song_file, user=request.user)
