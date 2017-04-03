@@ -178,7 +178,7 @@ class UploadSongFile(View):
                 gcs_file = gcs.open(song_file, 'w', content_type='audio/wav', retry_params=write_retry_params)
                 gcs_file.write(song_file)
                 gcs_file.close()
-                
+
                 song_file = UMedia(song_file=song_file, user=request.user)
                 song_file.save()
 
