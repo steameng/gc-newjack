@@ -19,7 +19,7 @@ bucket = '/' + bucket_name
 
 def user_directory_path(instance, filename):
     '''File upload handler. Sets upload to path to /MEDIAROOT/user/{{username}}/{{filename}}'''
-    return 'user/{0}/{1}'.format(instance.user, filename)
+    return '/user/{0}/{1}'.format(instance.user, filename)
 
 
 
