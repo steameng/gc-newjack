@@ -175,7 +175,8 @@ class UploadSongFile(View):
             files = request.FILES.getlist('file_field')
             for (i, song_file) in enumerate(files):
                 write_retry_params = gcs.RetryParams(backoff_factor=1.1)
-                gcs_file = gcs.open(song_file.name, 'w', content_type='audio/wav', retry_params=write_retry_params)
+                file_path = bucket + '/' + song_file.name
+                gcs_file = gcs.open(file_path, 'w', content_type='audio/wav', retry_params=write_retry_params)
                 gcs_file.write(song_file)
                 gcs_file.close()
 

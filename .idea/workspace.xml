@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67b7b263-a621-45c1-a26c-df5fb31a169a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ds_site/settings/production.py" afterPath="$PROJECT_DIR$/ds_site/settings/production.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/u/views.py" afterPath="$PROJECT_DIR$/u/views.py" />
     </list>
     <ignored path="parsec.iws" />
@@ -71,8 +69,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/u/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1380">
-              <caret line="172" column="52" selection-start-line="172" selection-start-column="52" selection-end-line="172" selection-end-column="52" />
+            <state relative-caret-position="1474">
+              <caret line="178" column="45" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="45" />
               <folding>
                 <element signature="e#269#359#0" expanded="true" />
               </folding>
@@ -154,8 +152,8 @@
         <option value="$PROJECT_DIR$/templates/registration/activation_email.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/u/models.py" />
-        <option value="$PROJECT_DIR$/u/views.py" />
         <option value="$PROJECT_DIR$/ds_site/settings/production.py" />
+        <option value="$PROJECT_DIR$/u/views.py" />
       </list>
     </option>
   </component>
@@ -808,8 +806,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/u/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="172" column="52" selection-start-line="172" selection-start-column="52" selection-end-line="172" selection-end-column="52" />
+        <state relative-caret-position="1474">
+          <caret line="178" column="45" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="45" />
           <folding>
             <element signature="e#269#359#0" expanded="true" />
           </folding>
