@@ -6,12 +6,20 @@ from django.conf import settings
 import os
 from os.path import basename
 
+import logging
+import cloudstorage as gcs
+# import webapp2
+# from google.appengine.api import app_identity
+
+##GCS Storage bucket info
+bucket_name = 'newjack-steameng.appspot.com'
+bucket = '/' + bucket_name
 
 ##############################  HANDLERS  #################################
 
 def user_directory_path(instance, filename):
     '''File upload handler. Sets upload to path to /MEDIAROOT/user/{{username}}/{{filename}}'''
-    return 'user/{0}/{1}'.format(instance.user, filename)
+    return bucket_name + '/user/{0}/{1}'.format(instance.user, filename)
 
 
 

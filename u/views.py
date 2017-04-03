@@ -1,7 +1,7 @@
 # from django.core.mail import send_mail # to access send_mail function
 # from django.core.exceptions import PermissionDenied
 # from django.conf import settings
-# import os
+
 # from os.path import basename
 # from scikits.audiolab import wavread, wavwrite
 # from scipy import vstack
@@ -20,7 +20,15 @@ import json
 import wave
 from algorythm import getwavs
 
+import logging
+# import os
+import cloudstorage as gcs
+# import webapp2
+# from google.appengine.api import app_identity
 
+##GCS Storage bucket info
+bucket_name = 'newjack-steameng.appspot.com'
+bucket = '/' + bucket_name
 
 ##############################  VIEWS  #################################
 
@@ -166,6 +174,11 @@ class UploadSongFile(View):
         if form.is_valid():
             files = request.FILES.getlist('file_field')
             for (i, song_file) in enumerate(files):
+                write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+                gcs_file = gcs.open(song_file, 'w', content_type='audio/wav', retry_params=write_retry_params)
+                gcs_file.write(song_file)
+                gcs_file.close()
+                
                 song_file = UMedia(song_file=song_file, user=request.user)
                 song_file.save()
 
