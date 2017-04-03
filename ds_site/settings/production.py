@@ -181,7 +181,7 @@ STATICFILES_DIRS = [                           # this is where your static files
 ###this is where end user or staff files are going, repo for external people to upload files to your site
 ### There is no MEDIAFILES_DIRS because it is the user who is the source of the files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media") # where user files are uploaded; on production you have to change this to your webservers file structure path
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/") # where user files are uploaded; on production you have to change this to your webservers file structure path
 #MEDIA_ROOT = os.path.join(_module_dir, 'media/') # might utilize this when you figure media uploads out
 
 # Crispy Form Template Version
