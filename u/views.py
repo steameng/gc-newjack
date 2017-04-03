@@ -177,7 +177,7 @@ class UploadSongFile(View):
                 write_retry_params = gcs.RetryParams(backoff_factor=1.1)
                 file_path = bucket + '/' + song_file.name
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/wav', retry_params=write_retry_params)
-                gcs_file.write(song_file)
+                gcs_file.write(song_file.encode('utf-8'))
                 gcs_file.close()
 
                 song_file = UMedia(song_file=song_file, user=request.user)
