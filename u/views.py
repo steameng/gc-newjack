@@ -181,7 +181,7 @@ class UploadSongFile(View):
                 data.append([w.getparams(), w.readframes(w.getnframes())])
                 w.close()
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/wav', retry_params=write_retry_params)
-                gcs_file.writeframes(data[0][1])
+                gcs_file.write(data[0][1])
                 # gcs_file.write()
                 gcs_file.close()
 
