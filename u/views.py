@@ -57,11 +57,9 @@ def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
 
-    with gcs.open(
-                        bucket + '/' + str(request.user) + '/intro1.wav',
-                        mode='r'
-                ) as fp:
-        songdata = fp.read()
+    gcs_file = gcs.open(bucket + '/' + str(request.user) + '/intro1.wav')
+    songdata = gcs_file.read()
+    gcs_file.close()
     return HttpResponse(songdata, content_type='audio/wav')
 
 
