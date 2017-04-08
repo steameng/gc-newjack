@@ -57,12 +57,13 @@ def playsong(self, request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
 
-    gcs_file = gcs.open(bucket + '/' + str(request.user) + '/intro1.wav')
+    gcs_file = gcs.open('/newjack-steameng.appspot.com/pmanno/intro1.wav')
     songdata = gcs_file.read()
 
-    self.response.write(songdata)
     gcs_file.close()
-    return HttpResponse(songdata, content_type='audio/wav')
+    messages.success('{}'.format(songdata))
+    return redirect('u:Home')
+    # return HttpResponse(songdata, content_type='audio/wav')
 
 
     # song = get_object_or_404(UMusic, user=request.user, id=song_id)
