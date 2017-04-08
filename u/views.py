@@ -53,17 +53,9 @@ class DeleteSongOld(DeleteView):
     success_url = reverse_lazy("u:Home")
 
 
-def playsong(self, song_id, song_seed):
+def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
-
-    gcs_file = gcs.open('/newjack-steameng.appspot.com/pmanno/intro1.wav')
-    with wave.open(gcs_file, 'r') as fp:
-        songdata = fp.read()
-    self.response.out.write('<script>alert("hey");</script>')
-    return HttpResponse(songdata, content_type='audio/wav')
-
-
 
     # song = get_object_or_404(UMusic, user=request.user, id=song_id)
     # song_json = json.loads(song.song_json)
@@ -198,8 +190,12 @@ class UploadSongFile(View):
                 gcs_file.write(data[0][1])
                 gcs_file.close()
 
+                gcs_file = gcs.open(file_path)
+                song_data = gcs_file.read()
+                gcs_file.close()
+
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
 
-            messages.success(request, 'File(s) Uploaded')
+            messages.success(request, '{}'.format(song_data))
             return redirect("u:Home")
