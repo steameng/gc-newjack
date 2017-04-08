@@ -197,5 +197,5 @@ class UploadSongFile(View):
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
 
-            messages.success(request, '{}'.format(song_data))
+            messages.success(request, '{}'.format(song_data.decode('utf-8', "strict")))
             return redirect("u:Home")
