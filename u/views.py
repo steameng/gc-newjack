@@ -58,6 +58,10 @@ def playsong(request, song_id, song_seed):
      Gets seed from last page seed value and magic'''
     file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
     gcs_file = gcs.open(file_path)
+    song_data = gcs_file.read()
+    gcs_file.close()
+    messages.success(request, '{}'.format(song_data.encode('utf-8')))
+    return redirect('u:Home')
     # song = get_object_or_404(UMusic, user=request.user, id=song_id)
     # song_json = json.loads(song.song_json)
     #
