@@ -35,7 +35,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/u/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1398">
+            <state relative-caret-position="1440">
               <caret line="80" column="20" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
               <folding>
                 <element signature="e#88#116#0" expanded="true" />
@@ -69,8 +69,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/u/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1560">
-              <caret line="187" column="54" selection-start-line="187" selection-start-column="54" selection-end-line="187" selection-end-column="54" />
+            <state relative-caret-position="1398">
+              <caret line="178" column="45" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="45" />
               <folding>
                 <element signature="e#269#359#0" expanded="true" />
               </folding>
@@ -846,7 +846,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/u/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1398">
+        <state relative-caret-position="1440">
           <caret line="80" column="20" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
           <folding>
             <element signature="e#88#116#0" expanded="true" />
@@ -856,8 +856,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/u/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="187" column="54" selection-start-line="187" selection-start-column="54" selection-end-line="187" selection-end-column="54" />
+        <state relative-caret-position="1398">
+          <caret line="178" column="45" selection-start-line="178" selection-start-column="45" selection-end-line="178" selection-end-column="45" />
           <folding>
             <element signature="e#269#359#0" expanded="true" />
           </folding>
