@@ -53,13 +53,14 @@ class DeleteSongOld(DeleteView):
     success_url = reverse_lazy("u:Home")
 
 
-def playsong(request, song_id, song_seed):
+def playsong(self, request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
 
     gcs_file = gcs.open(bucket + '/' + str(request.user) + '/intro1.wav')
     songdata = gcs_file.read()
-    print songdata
+
+    self.response.write(songdata)
     gcs_file.close()
     return HttpResponse(songdata, content_type='audio/wav')
 
