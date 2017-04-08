@@ -56,7 +56,8 @@ class DeleteSongOld(DeleteView):
 def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
-
+    file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
+    gcs_file = gcs.open(file_path)
     # song = get_object_or_404(UMusic, user=request.user, id=song_id)
     # song_json = json.loads(song.song_json)
     #
@@ -191,14 +192,11 @@ class UploadSongFile(View):
                 gcs_file.close()
 
                 gcs_file = gcs.open(file_path)
-
-                with open(gcs_file, 'r') as fp:
-                    song_data = fp.read()
-                # song_data = gcs_file.read()
-                # gcs_file.close()
+                song_data = gcs_file.read()
+                gcs_file.close()
 
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
 
-            messages.success(request, '{}'.format(song_data.decode('utf-8', "strict")))
+            messages.success(request, '{}'.format(song_data.decode('utf-8', "ignore")))
             return redirect("u:Home")
