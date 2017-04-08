@@ -7,7 +7,7 @@ import os
 from os.path import basename
 
 import logging
-import cloudstorage as gcs
+# import cloudstorage as gcs
 # import webapp2
 # from google.appengine.api import app_identity
 

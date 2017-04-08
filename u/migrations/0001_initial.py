@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import u.models
 from django.conf import settings
 
 
@@ -18,8 +17,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('song_file', models.FileField(upload_to=u.models.user_directory_path)),
+                ('song_file', models.CharField(max_length=255)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'db_table': 'u_media',
+            },
         ),
         migrations.CreateModel(
             name='UMusic',
@@ -32,6 +35,9 @@ class Migration(migrations.Migration):
                 ('song_seed', models.TextField()),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'db_table': 'u_music',
+            },
         ),
         migrations.CreateModel(
             name='UPerson',
@@ -41,15 +47,8 @@ class Migration(migrations.Migration):
                 ('info', models.CharField(max_length=255, verbose_name=b'Song Title')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
-        ),
-        migrations.AddField(
-            model_name='umedia',
-            name='song',
-            field=models.ManyToManyField(to='u.UMusic'),
-        ),
-        migrations.AddField(
-            model_name='umedia',
-            name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            options={
+                'db_table': 'u_person',
+            },
         ),
     ]
