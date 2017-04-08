@@ -176,7 +176,8 @@ class UploadSongFile(View):
             for (i, song_file) in enumerate(files):
                 data = []
                 write_retry_params = gcs.RetryParams(backoff_factor=1.1)
-                file_path = bucket + '/' + song_file.name
+                song_name = request.user + '/' + song_file.name
+                file_path = bucket + '/' + song_name
                 w = wave.open(song_file, 'rb')
                 data.append([w.getparams(), w.readframes(w.getnframes())])
                 w.close()
@@ -184,7 +185,7 @@ class UploadSongFile(View):
                 gcs_file.write(data[0][1])
                 gcs_file.close()
 
-                song_file = UMedia(song_file=song_file.name, user=request.user)
+                song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
 
             messages.success(request, 'File(s) Uploaded')
