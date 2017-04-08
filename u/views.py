@@ -191,8 +191,11 @@ class UploadSongFile(View):
                 gcs_file.close()
 
                 gcs_file = gcs.open(file_path)
-                song_data = gcs_file.read()
-                gcs_file.close()
+
+                with open(gcs_file, 'r') as fp:
+                    song_data = fp.read()
+                # song_data = gcs_file.read()
+                # gcs_file.close()
 
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
