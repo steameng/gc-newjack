@@ -4,7 +4,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.conf import settings
 import os
-from os.path import basename
+# from os.path import basename
 
 import logging
 # import cloudstorage as gcs
@@ -73,13 +73,14 @@ class UMedia(models.Model):
         db_table = 'u_media'
 
     def get_absolute_url(self):
-        return self.song_file.path
+        return bucket + '/' + self.song_file
 
     def __unicode__(self):
         return '{}'.format(self.user)
 
     def label(self):
-        return '{}'.format(basename(os.path.splitext(self.song_file)[0]))
+        return '{}'.format(os.path.splitext(os.path.split(self.song_file)[1])[0])
+        # return '{}'.format(basename(os.path.splitext(self.song_file)[0]))
 
 
 ### Slug function
