@@ -57,28 +57,41 @@ def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
 
-    song = get_object_or_404(UMusic, user=request.user, id=song_id)
-    song_json = json.loads(song.song_json)
-
-    infiles = getwavs(song_json, song_seed) # get paths from algorythm
-
-    data = []
-    for (i, infile) in enumerate(infiles):
-        w = wave.open(infile, 'rb')
-        data.append([w.getparams(), w.readframes(w.getnframes())])
-        w.close()
-
-    outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
-    output = wave.open(outfile, 'wb')
-    output.setparams(data[0][0])
-    for (i, infile) in enumerate(infiles):
-        output.writeframes(data[i][1])
-    output.close()
-
-    with open(outfile, 'r') as fp:
+    with gcs.open(
+                        bucket + '/' + str(request.user) + '/intro1.wav',
+                        mode='r'
+                ) as fp:
         songdata = fp.read()
-
     return HttpResponse(songdata, content_type='audio/wav')
+
+
+    # song = get_object_or_404(UMusic, user=request.user, id=song_id)
+    # song_json = json.loads(song.song_json)
+    #
+    # infiles = getwavs(song_json, song_seed) # get paths from algorythm
+    #
+    #
+
+    # data = []
+    # for (i, infile) in enumerate(infiles):
+    #     #must read gcs_file here
+    #     w = wave.open(infile, 'rb')
+    #     data.append([w.getparams(), w.readframes(w.getnframes())])
+    #     w.close()
+
+    #
+    # outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
+    # output = wave.open(outfile, 'wb')
+    # output.setparams(data[0][0])
+    # for (i, infile) in enumerate(infiles):
+    #     output.writeframes(data[i][1])
+    # output.close()
+    #
+    # with open(outfile, 'r') as fp:
+    #     songdata = fp.read()
+    #       fp.close() #### ADDED THIS LINE, STILL NEED TO TEST
+    #
+    # return HttpResponse(songdata, content_type='audio/wav')
 
 
 class UHome(View):
