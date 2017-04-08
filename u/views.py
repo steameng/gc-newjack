@@ -59,6 +59,7 @@ def playsong(request, song_id, song_seed):
 
     gcs_file = gcs.open(bucket + '/' + str(request.user) + '/intro1.wav')
     songdata = gcs_file.read()
+    print songdata
     gcs_file.close()
     return HttpResponse(songdata, content_type='audio/wav')
 
