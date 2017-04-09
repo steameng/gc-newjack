@@ -205,30 +205,33 @@ class UploadSongFile(View):
         if form.is_valid():
             files = request.FILES.getlist('file_field')
             for (i, song_file) in enumerate(files):
+                try:
+                    write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+                    song_name = str(request.user) + '/' + song_file.name
+                    file_path = bucket + '/' + song_name
 
-                write_retry_params = gcs.RetryParams(backoff_factor=1.1)
-                song_name = str(request.user) + '/' + song_file.name
-                file_path = bucket + '/' + song_name
+                    obj = song_file.read()
+                    gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
+                    gcs_file.write(obj)
+                    gcs_file.close()
 
-                obj = song_file.read()
-                gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
-                gcs_file.write(obj)
-                gcs_file.close()
+                    # data = []
+                    # w = wave.open(song_file, 'rb')
+                    # data.append([w.getparams(), w.readframes(w.getnframes())])
+                    # w.close()
+                    #
+                    # output = wave.open(song_file, 'wb')
+                    # output.setparams(data[0][0])
+                    # output.writeframes(data[i][1])
+                    # output.close()
 
-                # data = []
-                # w = wave.open(song_file, 'rb')
-                # data.append([w.getparams(), w.readframes(w.getnframes())])
-                # w.close()
-                #
-                # output = wave.open(song_file, 'wb')
-                # output.setparams(data[0][0])
-                # output.writeframes(data[i][1])
-                # output.close()
+                    song_file = UMedia(song_file=song_name, user=request.user)
+                    song_file.save()
+                    # messages.success(request, 'File upload successful')
+                except:
+                    messages.error(request, '{} already exists'.format(song_file.name))
 
-
-                song_file = UMedia(song_file=song_name, user=request.user)
-                song_file.save()
-            messages.success(request, 'File upload successful')
+            messages.success(request, 'File(s) uploaded')
             return redirect("u:Home")
         messages.error(request, 'Form not valid')
         return redirect("u:Home")

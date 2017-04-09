@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('song_file', models.CharField(max_length=255)),
+                ('song_file', models.CharField(unique=True, max_length=255)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={

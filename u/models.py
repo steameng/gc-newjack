@@ -66,7 +66,7 @@ class UMedia(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     # song = models.ManyToManyField(UMusic) # i think this can be deleted
     creation_date = models.DateTimeField(auto_now_add=True, auto_now=False)
-    song_file = models.CharField(max_length=255, blank=False)
+    song_file = models.CharField(unique=True, max_length=255, blank=False)
     # song_file = models.FileField(upload_to=user_directory_path)
 
     class Meta:
