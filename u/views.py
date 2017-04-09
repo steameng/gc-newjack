@@ -17,6 +17,7 @@ from .forms import UMediaUploadForm
 from .models import UMusic, UMedia
 
 import json
+import StringIO
 import wave
 from algorythm import getwavs
 
@@ -56,27 +57,48 @@ class DeleteSongOld(DeleteView):
 def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
-    file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
-    gcs_file = gcs.open(file_path)
-    song_data = gcs_file.read()
-    gcs_file.close()
+    # file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
+    # gcs_file = gcs.open(file_path)
+    # song_data = gcs_file.read()
+    # gcs_file.close()
+    # return HttpResponse(song_data, content_type='audio/wav')
 
-    return HttpResponse(song_data, content_type='audio/wav')
-    # song = get_object_or_404(UMusic, user=request.user, id=song_id)
-    # song_json = json.loads(song.song_json)
-    #
-    # infiles = getwavs(song_json, song_seed) # get paths from algorythm
-    #
-    #
 
-    # data = []
+
+
+    song = get_object_or_404(UMusic, user=request.user, id=song_id)
+    song_json = json.loads(song.song_json)
+
+    infiles = getwavs(song_json, song_seed) # get paths from algorythm
+
+    data = []
+    for (i, infile) in enumerate(infiles):
+        # must read gcs_file here
+        gcs_file = gcs.open(infile)
+        w = wave.open(gcs_file, 'rb')
+        data.append([w.getparams(), w.readframes(w.getnframes())])
+        w.close()
+        gcs_file.close()
+
+    outfile = StringIO.StringIO()
+    output = wave.open(outfile, 'wb')
+    output.setparams(data[0][0])
+    for (i, infile) in enumerate(infiles):
+        output.writeframes(data[i][1])
+    output.close()
+
+    songdata = outfile.getvalue()
+    outfile.close()
+    return HttpResponse(songdata, content_type='audio/wav')
+
     # for (i, infile) in enumerate(infiles):
     #     #must read gcs_file here
+    #
+    #
+    #
     #     w = wave.open(infile, 'rb')
     #     data.append([w.getparams(), w.readframes(w.getnframes())])
     #     w.close()
-
-    #
     # outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
     # output = wave.open(outfile, 'wb')
     # output.setparams(data[0][0])
@@ -86,9 +108,8 @@ def playsong(request, song_id, song_seed):
     #
     # with open(outfile, 'r') as fp:
     #     songdata = fp.read()
-    #       fp.close() #### ADDED THIS LINE, STILL NEED TO TEST
-    #
-    # return HttpResponse(songdata, content_type='audio/wav')
+    #     fp.close() #### ADDED THIS LINE, STILL NEED TO TEST
+    #     return HttpResponse(songdata, content_type='audio/wav')
 
 
 class UHome(View):
@@ -184,13 +205,17 @@ class UploadSongFile(View):
         if form.is_valid():
             files = request.FILES.getlist('file_field')
             for (i, song_file) in enumerate(files):
-                data = []
+
                 write_retry_params = gcs.RetryParams(backoff_factor=1.1)
                 song_name = str(request.user) + '/' + song_file.name
                 file_path = bucket + '/' + song_name
 
+                obj = song_file.read()
+                gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
+                gcs_file.write(obj)
+                gcs_file.close()
 
-
+                # data = []
                 # w = wave.open(song_file, 'rb')
                 # data.append([w.getparams(), w.readframes(w.getnframes())])
                 # w.close()
@@ -199,14 +224,6 @@ class UploadSongFile(View):
                 # output.setparams(data[0][0])
                 # output.writeframes(data[i][1])
                 # output.close()
-
-
-                obj = song_file.read()
-                gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
-                gcs_file.write(obj)
-                gcs_file.close()
-
-
 
 
                 song_file = UMedia(song_file=song_name, user=request.user)
