@@ -225,8 +225,8 @@ class UploadSongFile(View):
                     # output.writeframes(data[i][1])
                     # output.close()
 
-                    song_file = UMedia(song_file=song_name, user=request.user)
-                    song_file.save()
+                    instance = UMedia(song_file=song_name, user=request.user)
+                    instance.save()
                     # messages.success(request, 'File upload successful')
                 except:
                     messages.error(request, '{} already exists'.format(song_file.name))
