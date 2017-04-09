@@ -227,11 +227,11 @@ class UploadSongFile(View):
 
                     instance = UMedia(song_file=song_name, user=request.user)
                     instance.save()
+                    messages.success(request, '{} uploaded'.format(song_file.name))
                     # messages.success(request, 'File upload successful')
                 except:
                     messages.error(request, '{} already exists'.format(song_file.name))
 
-            messages.success(request, 'File(s) uploaded')
             return redirect("u:Home")
         messages.error(request, 'Form not valid')
         return redirect("u:Home")
