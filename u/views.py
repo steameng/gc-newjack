@@ -191,16 +191,13 @@ class UploadSongFile(View):
                 w = wave.open(song_file, 'rb')
                 data.append([w.getparams(), w.readframes(w.getnframes())])
                 w.close()
-                gcs_file = gcs.open(file_path, 'w', content_type='audio/wav', retry_params=write_retry_params)
-                gcs_file.write(data[0][1])
+                gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
+
+                gcs_file.write(data)
                 gcs_file.close()
 
-                gcs_file = gcs.open(file_path)
-                song_data = gcs_file.read()
-                gcs_file.close()
 
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
 
-            messages.success(request, '{}'.format(song_data.encode('utf-8')))
             return redirect("u:Home")
