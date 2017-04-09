@@ -187,8 +187,8 @@ class UploadSongFile(View):
                 data = []
                 write_retry_params = gcs.RetryParams(backoff_factor=1.1)
                 song_name = str(request.user) + '/' + song_file.name
-                sf = song_file.file
                 file_path = bucket + '/' + song_name
+
 
 
                 # w = wave.open(song_file, 'rb')
@@ -200,11 +200,10 @@ class UploadSongFile(View):
                 # output.writeframes(data[i][1])
                 # output.close()
 
-
-                gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
-
-                gcs_file.write(song_file.file)
-                gcs_file.close()
+                with open(song_file, 'rb') as fp:
+                    gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
+                    gcs_file.write(fp.read())
+                    gcs_file.close()
 
 
 
