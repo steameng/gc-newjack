@@ -53,6 +53,8 @@ class DeleteSongOld(DeleteView):
     model = UMusic
     success_url = reverse_lazy("u:Home")
 
+class DeleteSongFile(View):
+    pass
 
 def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.

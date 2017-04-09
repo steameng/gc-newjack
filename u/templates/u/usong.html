@@ -55,8 +55,19 @@
 
     {% block title %}Your HP{% endblock %}
     {% block messages %}
-        <div class="col-xs-8 col-xs-offset-2">
-            {{ block.super }}
+    <div style="position: absolute; top: 0px; z-index: 10000; right: 5%;">
+        {% for message in messages %}
+            {% if message.tags %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% else %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}<a class="btn" onclick="
+                $('.alert').click(function () {$(this).parent().remove(); });
+                ">X</a></div>
+                {{ message.tag }}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
         </div>
     {% endblock %}
 
