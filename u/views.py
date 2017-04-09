@@ -230,7 +230,7 @@ class UploadSongFile(View):
                     messages.success(request, '{} uploaded'.format(song_file.name))
                     # messages.success(request, 'File upload successful')
                 except:
-                    messages.error(request, '{} already exists'.format(song_file.name))
+                    messages.warning(request, '{} already exists; upload ignored'.format(song_file.name))
 
             return redirect("u:Home")
         messages.error(request, 'Form not valid')
