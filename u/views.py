@@ -228,5 +228,7 @@ class UploadSongFile(View):
 
                 song_file = UMedia(song_file=song_name, user=request.user)
                 song_file.save()
-
+            messages.success(request, 'File upload successful')
             return redirect("u:Home")
+        messages.error(request, 'Form not valid')
+        return redirect("u:Home")
