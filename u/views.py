@@ -193,7 +193,7 @@ class UploadSongFile(View):
                 w.close()
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
 
-                gcs_file.write(data)
+                gcs_file.write(data[0])
                 gcs_file.close()
 
 
