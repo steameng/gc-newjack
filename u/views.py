@@ -191,11 +191,11 @@ class UploadSongFile(View):
                 file_path = bucket + '/' + song_name
 
 
-                # w = wave.open(song_file, 'rb')
-                # data.append([w.getparams(), w.readframes(w.getnframes())])
-                # w.close()
+                w = wave.open(song_file, 'rb')
+                data.append([w.getparams(), w.readframes(w.getnframes())])
+                w.close()
                 #
-                # output = wave.open(file_path, 'wb')
+                output = wave.open(song_file, 'wb')
                 # output.setparams(data[0][0])
                 # output.writeframes(data[i][1])
                 # output.close()
@@ -203,7 +203,7 @@ class UploadSongFile(View):
 
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
 
-                gcs_file.write(song_file)
+                gcs_file.write(data[0][1])
                 gcs_file.close()
 
 
