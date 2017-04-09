@@ -200,7 +200,7 @@ class UploadSongFile(View):
                 # output.writeframes(data[i][1])
                 # output.close()
 
-                fp = open(song_file, 'r')
+                fp = open(song_file.name, 'r')
                 obj = fp.read()
                 gcs_file = gcs.open(file_path, 'w', content_type='audio/x-wav', retry_params=write_retry_params)
                 gcs_file.write(obj)
