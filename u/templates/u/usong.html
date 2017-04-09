@@ -64,9 +64,9 @@
                 <a class="btn" onclick="
                 $('.alert').click(function () {$(this).parent().remove(); });
                 ">
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    <div class="alert alert-{{ message.tags }}">{{ message }}{{ message.tag }}</div>
                 </a>
-                {{ message.tag }}
+
                 {% endif %}
             {% endif %}
         {% endfor %}
