@@ -197,7 +197,7 @@ LOGIN_REDIRECT_URL = '/u/'
 # only use the memory file uploader, do not use the file system - not able to do so on
 # google app engine
 FILE_UPLOAD_HANDLERS = ('django.core.files.uploadhandler.MemoryFileUploadHandler',)
-FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 # the django default: 2.5MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 7021440 # the django default: 2.5MB
 
 
 #
