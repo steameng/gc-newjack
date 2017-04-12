@@ -41,7 +41,7 @@
         <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
         <script src=" {% static 'js/Application.js' %}"></script>
         <script src=" {% static 'js/View.js' %}"></script>
-        <script src=" {% static 'js/AlgoBaah.js' %}"></script>
+        <script src=" {% static 'js/UShareBaah.js' %}"></script>
         <script src=" {% static 'js/TableShape.js' %}"></script>
         <script src=" {% static 'js/BetweenFigure.js' %}"></script>
         <script src=" {% static 'js/MyInterceptorPolicy.js' %}"></script>
@@ -64,89 +64,34 @@
                         <lead>Welcome; user: {{ user }}</lead>
                         <lead>{{ song.song_title }}</lead>
                 </div>
+            </div>
         <div class="col-xs-12">
             Share Link: newjack-steameng.appspot.com{% url 'u:USongShare' request.user song.id %}
         </div>
-            </div>
 
 
 {% block messages %}
+    <div style="position: absolute; top: 0px; z-index: 10000; right: 5%;">
         {% for message in messages %}
-            <a style="position: absolute; top: 0px; z-index: 10000; right: 5%;" class="btn" onclick="
-                $('.alert').click(function () {$(this).parent().remove(); });
-                ">
             {% if message.tags %}
                 {% if message.tags == 'error' %}
                     <div class="alert alert-danger">{{ message }}</div>
                 {% else %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}{{ message.tag }}</div>
+                <div class="alert alert-{{ message.tags }}">{{ message }}<a class="btn" onclick="
+                $('.alert').click(function () {$(this).parent().remove(); });
+                ">X</a></div>
+                {{ message.tag }}
                 {% endif %}
             {% endif %}
-            </a>
         {% endfor %}
+        </div>
     {% endblock %}
 
 
 
  <div id="toolbar" class="navbar-default">
 
-                <form style="float: left;" action="{% url 'u:DeleteSong' song.id %}">
-                    <button type="submit" class="gray btn" style="color: #fff; background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%); border-color: #b92c28;">
-                        <span class="">Delete Song</span>
-                    </button>
-               </form>
 
-
-               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
-                    <button class="gray" onclick="
-                        while (document.getElementById('savesongtitle').getAttribute('value') == '')
-                            {
-                                var songName = prompt('Save Song', document.getElementById('savesongtitle').getAttribute('value'));
-                                if (songName)
-                                {
-                                document.getElementById('savesongtitle').setAttribute('value', songName);
-                                }
-                            }
-                        document.getElementById('savejson').setAttribute('value', document.getElementById('json').innerHTML);
-                        document.getElementById('saveseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
-                    ">
-                    Save
-                    </button>
-                    <input id="savejson" type="hidden" value="" name="savejson"/>
-                    <input id="savesongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
-                    <input id="saveseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
-               </form>
-
-               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
-                <button class="gray" onclick="
-                var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
-                if (songName)
-                {
-                document.getElementById('savenewsongtitle').setAttribute('value', songName);
-                }
-                document.getElementById('savenewjson').setAttribute('value', document.getElementById('json').innerHTML);
-                document.getElementById('savenewseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
-                    ">SaveNew</button>
-                    <input id="savenewjson" type="hidden" value="" name="savejson"/>
-                    <input id="savenewsongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
-                    <input id="savenewseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
-               </form>
-
-                <form style="float: left;" action="{% url 'u:UCanShare' song.id %}" method="POST">{% csrf_token %}
-                    {% if song.can_share %}
-                        <input type="radio" value="public" name="canshare" checked>Public
-                        <input type="radio" value="private" name="canshare">Private
-                    {% else %}
-                        <input type="radio" value="public" name="canshare">Public
-                        <input type="radio" value="private" name="canshare" checked>Private
-                    {% endif %}
-                    <button type="submit" class="gray btn" style="color: #000; background-image: linear-gradient(to bottom,#fff 0,#3BD2A2 100%); border-color: #3BD2A2;">
-                        <span class="">Save Share</span>
-                    </button>
-               </form>
-               <span class='toolbar_delimiter'>&nbsp;</span>
-               <span class='toolbar_delimiter'>&nbsp;</span>
-               <span class='toolbar_delimiter'>&nbsp;</span>
 
                <button id="useed" class="gray" value="{{ song.song_seed }}" onclick="
                 var songName = prompt('Enter Seed',document.getElementById('useed').getAttribute('value'));
@@ -193,10 +138,7 @@
                    Replay
                </button>
 
-
-
-
-           </div>
+       </div>
 
 
 

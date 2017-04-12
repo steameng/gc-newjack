@@ -54,6 +54,7 @@ class DeleteSongOld(DeleteView):
     success_url = reverse_lazy("u:Home")
 
 class DeleteSongFile(View):
+    '''Deletes GCS FILE'''
     pass
 
 def playsong(request, song_id, song_seed):
@@ -171,6 +172,69 @@ class USongNew(View):
             'songfiles': songfiles,
             }
         return render(request, "u/usongnew.html", context)
+
+
+class USongShare(View):
+    '''Gets the requested Song Page'''
+
+    def get(self, request, author, song_id):
+        # if not request.user.is_authenticated():
+        #     messages.info(request, "You have to Login")
+        #     return redirect("Login")
+        try:
+            song = get_object_or_404(UMusic, id=song_id) # Replace with slug field
+        except UMusic.DoesNotExist:
+            messages.error(request, 'notfound')
+            return redirect('u:UHome')
+
+        if song.can_share:
+            song_json = json.loads(song.song_json)
+            # songfiles = UMedia.objects.filter(user=request.user)
+
+            context= {
+                'song': song,
+                'song_json': song_json,
+                }
+            return render(request, "u/usongshare.html", context)
+        else:
+            messages.warning(request, 'This song is not Public')
+            return redirect('dsx:Home')
+
+
+class UCanShare(View):
+    '''Grabs current song to get json.
+     Gets seed from last page seed value and magic'''
+    def post(self, request, song_id):
+
+        if request.POST['canshare'] == 'public':
+            try:
+                instance = UMusic.objects.get(id=song_id, user=request.user)
+                instance.can_share = True
+                instance.save()
+
+                messages.success(request, "Public Share")
+                return redirect('u:USong', song_id=instance.id)
+            # Create if doesn't exist
+            except UMusic.DoesNotExist:
+                messages.error(request, 'error in request')
+                return redirect('u:USong', song_id=song_id)
+        if request.POST['canshare'] == 'private':
+            try:
+                instance = UMusic.objects.get(id=song_id, user=request.user)
+                instance.can_share = False
+                instance.save()
+
+                messages.success(request, "Private Share")
+                return redirect('u:USong', song_id=instance.id)
+            # Create if doesn't exist
+            except UMusic.DoesNotExist:
+                messages.error(request, 'error in request')
+                return redirect('u:USong', song_id=song_id)
+
+        return redirect('u:USong', song_id=song_id)
+        # messages.success(request, 'go nuts')
+        # return redirect('u:USong', song_id=instance.id)
+
 
 
 

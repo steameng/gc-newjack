@@ -4,8 +4,11 @@
         {{ block.super }}
         <style>body {padding-top: 50px}</style>
     {% endblock %}
-
+    {% block messages %}
+        <div class="col-xs-12">
+            {{ block.super }}
+        </div>
+    {% endblock %}
     {% block content%}
         {% include "navbar.html" %}
     {% endblock %}
-

@@ -49,6 +49,7 @@ class UMusic(models.Model):
     song_title = models.CharField(verbose_name='Song Title', max_length=255, blank=False)
     song_json = models.TextField()
     song_seed = models.TextField()
+    can_share = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'u_music'
