@@ -1,4 +1,3 @@
-
 example.Toolbar = Class.extend({
 
 	init:function(elementId, view)

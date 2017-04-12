@@ -188,7 +188,7 @@ class USongShare(View):
             return redirect('u:UHome')
 
         if song.can_share:
-            song_json = json.loads(song.song_json)
+            song_json = song.song_json
             # songfiles = UMedia.objects.filter(user=request.user)
 
             context= {
