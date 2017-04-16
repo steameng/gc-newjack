@@ -1,3 +1,34 @@
+###playsong
+
+# file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
+# gcs_file = gcs.open(file_path)
+# song_data = gcs_file.read()
+# gcs_file.close()
+# return HttpResponse(song_data, content_type='audio/wav')
+
+
+# for (i, infile) in enumerate(infiles):
+#     #must read gcs_file here
+#
+#
+#
+#     w = wave.open(infile, 'rb')
+#     data.append([w.getparams(), w.readframes(w.getnframes())])
+#     w.close()
+# outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
+# output = wave.open(outfile, 'wb')
+# output.setparams(data[0][0])
+# for (i, infile) in enumerate(infiles):
+#     output.writeframes(data[i][1])
+# output.close()
+#
+# with open(outfile, 'r') as fp:
+#     songdata = fp.read()
+#     fp.close() #### ADDED THIS LINE, STILL NEED TO TEST
+#     return HttpResponse(songdata, content_type='audio/wav')
+
+
+
 
 ###USongOld
 #

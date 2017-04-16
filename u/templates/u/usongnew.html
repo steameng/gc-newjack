@@ -42,7 +42,7 @@
         <script src=" {% static 'js/jquery-ui.custom.min.js' %}"></script>
         <script src=" {% static 'js/Application.js' %}"></script>
         <script src=" {% static 'js/View.js' %}"></script>
-        <script src=" {% static 'js/Toolbar.js' %}"></script>
+        <script src=" {% static 'js/AlgoBaah.js' %}"></script>
         <script src=" {% static 'js/TableShape.js' %}"></script>
         <script src=" {% static 'js/newsong.js' %}"></script>
         <script src=" {% static 'js/BetweenFigure.js' %}"></script>
@@ -55,10 +55,9 @@
     {% endblock %}
 
     {% block title %}Your HP{% endblock %}
+
     {% block messages %}
-        <div class="col-xs-8 col-xs-offset-2">
-            {{ block.super }}
-        </div>
+        {{ block.super }}
     {% endblock %}
 
     {% block content %}
@@ -76,30 +75,9 @@
             </div>
         </div>
 
-{% block messages %}
-    <div id="alertsection" style="position: absolute; z-index: 10000;">
-        {% for message in messages %}
-
-            {% if message.tags %}
-                {% if message.tags == 'error' %}
-                    <div class="alert alert-danger">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-{{ message.tags }}">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ message }}{{ message.tag }}
-                    </div>
-                {% endif %}
-            {% endif %}
-
-        {% endfor %}
-    </div>
-{% endblock %}
 
            <div id="toolbar" class="navbar-default">
-               <form action="{% url 'u:SaveNewSong' %}" method="POST">{% csrf_token %}
+               <form action="{% url 'u:SaveNewSong' %}" method="POST" style="float: left">{% csrf_token %}
                 <button class="gray" onclick="
                 while (document.getElementById('savesongtitle').getAttribute('value') == '')
 			        {
@@ -111,7 +89,7 @@
 			        }
                 document.getElementById('savejson').setAttribute('value', document.getElementById('json').innerHTML);
                 document.getElementById('saveseed').setAttribute('value', document.getElementById('useed').getAttribute('value'));
-                    ">Savez</button>
+                    ">Save</button>
                     <input id="savejson" type="hidden" value="" name="savejson"/>
                     <input id="savesongtitle" type="hidden" value="{{ song.song_title }}" name="savesongtitle"/>
                     <input id="saveseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
@@ -125,13 +103,9 @@
 				var test = new Date();
 			    }">
                    Seed: </button>
-               <button class="gray" onclick="document.getElementById('audio').setAttribute('src', '' + document.getElementById('useed').getAttribute('value'));
-               document.getElementById('audio').play();">Playz</button>
-               <button class="gray" onclick="document.getElementById('audio').pause();">Pausez</button>
-               <button class="gray" onclick="document.getElementById('audio').src ='/media/{{ song.song_file.name }}';document.getElementById('audio').play();">Replayzz</button>
-           </div>
+               </div>
 
-           <div id="side-nav" >
+           <div id="side-nav">
              <span id="logo">newjack</span>
              <div id="layer_elements"></div>
              <div id="layer_header" class="highlight panetitle blackgradient">
@@ -150,19 +124,6 @@
            </div>
            <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
            <audio id="audio" preload="none" src=""></audio>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -38,6 +38,9 @@ bucket = '/' + bucket_name
 
 class DeleteSong(View):
     def post(self, request, song_id):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         song = get_object_or_404(UMusic, user=request.user, id=song_id )
         song_title = song.song_title
         song.delete()
@@ -46,15 +49,15 @@ class DeleteSong(View):
         return redirect('u:Home')
 
     def get(self, request, song_id):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         song = get_object_or_404(UMusic, user=request.user, id=song_id)
         context = {
             'song': song,
         }
         return render(request, 'u/song_confirm_delete.html', context)
 
-class DeleteSongOld(DeleteView):
-    model = UMusic
-    success_url = reverse_lazy("u:Home")
 
 class DeleteSongFile(View):
     '''Deletes GCS FILE'''
@@ -63,15 +66,6 @@ class DeleteSongFile(View):
 def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
-    # file_path = '/newjack-steameng.appspot.com/pmanno/intro1.wav'
-    # gcs_file = gcs.open(file_path)
-    # song_data = gcs_file.read()
-    # gcs_file.close()
-    # return HttpResponse(song_data, content_type='audio/wav')
-
-
-
-
     song = get_object_or_404(UMusic, user=request.user, id=song_id)
     song_json = json.loads(song.song_json)
 
@@ -97,25 +91,6 @@ def playsong(request, song_id, song_seed):
     outfile.close()
     return HttpResponse(songdata, content_type='audio/wav')
 
-    # for (i, infile) in enumerate(infiles):
-    #     #must read gcs_file here
-    #
-    #
-    #
-    #     w = wave.open(infile, 'rb')
-    #     data.append([w.getparams(), w.readframes(w.getnframes())])
-    #     w.close()
-    # outfile = settings.MEDIA_ROOT + '/user/{}'.format(request.user) +'/wave_file.wav'
-    # output = wave.open(outfile, 'wb')
-    # output.setparams(data[0][0])
-    # for (i, infile) in enumerate(infiles):
-    #     output.writeframes(data[i][1])
-    # output.close()
-    #
-    # with open(outfile, 'r') as fp:
-    #     songdata = fp.read()
-    #     fp.close() #### ADDED THIS LINE, STILL NEED TO TEST
-    #     return HttpResponse(songdata, content_type='audio/wav')
 
 
 class UHome(View):
@@ -140,7 +115,6 @@ class UHome(View):
 
 class USong(View):
     '''Gets the requested Song Page'''
-
     def get(self, request, song_id):
         if not request.user.is_authenticated():
             messages.info(request, "You have to Login")
@@ -181,9 +155,6 @@ class USongShare(View):
     '''Gets the requested Song Page'''
 
     def get(self, request, author, song_id):
-        # if not request.user.is_authenticated():
-        #     messages.info(request, "You have to Login")
-        #     return redirect("Login")
         try:
             song = get_object_or_404(UMusic, id=song_id) # Replace with slug field
         except UMusic.DoesNotExist:
@@ -192,7 +163,6 @@ class USongShare(View):
 
         if song.can_share:
             song_json = song.song_json
-            # songfiles = UMedia.objects.filter(user=request.user)
 
             context= {
                 'song': song,
@@ -208,7 +178,9 @@ class UCanShare(View):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
     def post(self, request, song_id):
-
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         if request.POST['canshare'] == 'public':
             try:
                 instance = UMusic.objects.get(id=song_id, user=request.user)
@@ -245,6 +217,9 @@ class SaveSong(View):
     '''Saves Song and either Creates or Updates song in DB'''
 
     def post(self, request):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         song_title = request.POST['savesongtitle']
         song_json = request.POST['savejson']
         song_seed = request.POST['saveseed']
@@ -255,13 +230,11 @@ class SaveSong(View):
             instance.song_seed = song_seed
             instance.save()
 
-            # messages.success(request, "Song Updated")
         # Create if doesn't exist
         except UMusic.DoesNotExist:
             instance = UMusic(song_title=song_title, song_json=song_json, song_seed=song_seed, user=request.user)
             instance.save()
 
-            # messages.success(request, "Song Saved")
         return HttpResponse()
         # return redirect('u:USong', song_id=instance.id)
 
@@ -269,6 +242,9 @@ class SaveNewSong(View):
     '''Saves Song and either Creates or Updates song in DB'''
 
     def post(self, request):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         song_title = request.POST['savesongtitle']
         song_json = json.dumps(request.POST['savejson'])
         song_seed = request.POST['saveseed']
@@ -292,16 +268,21 @@ class SaveNewSong(View):
 
 class UploadSongFile(View):
     '''Multi-file Upload Handler'''
-
     def post(self, request):
+        if not request.user.is_authenticated():
+            messages.info(request, "You have to Login")
+            return redirect("Login")
         form = UMediaUploadForm(request.POST, request.FILES)
         if form.is_valid():
             files = request.FILES.getlist('file_field')
+            write_retry_params = gcs.RetryParams(backoff_factor=1.1)
             for (i, song_file) in enumerate(files):
                 try:
-                    write_retry_params = gcs.RetryParams(backoff_factor=1.1)
                     song_name = str(request.user) + '/' + song_file.name
                     file_path = bucket + '/' + song_name
+                    # write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+                    # song_name = str(request.user) + '/' + song_file.name
+                    # file_path = bucket + '/' + song_name
 
                     instance = UMedia(song_file=song_name, user=request.user)
                     instance.save()

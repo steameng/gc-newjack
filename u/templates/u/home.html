@@ -14,15 +14,11 @@
 
     {% block js %}
         {{ block.super }}
-
-
     {% endblock %}
 
     {% block title %}Your HP{% endblock %}
     {% block messages %}
-        <div class="col-xs-8 col-xs-offset-2">
-            {{ block.super }}
-        </div>
+        {{ block.super }}
     {% endblock %}
 
     {% block content %}

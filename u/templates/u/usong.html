@@ -54,6 +54,9 @@
 
     {% block title %}Your HP{% endblock %}
 
+    {% block messages %}
+        {{ block.super }}
+    {% endblock %}
 
     {% block content %}
         {{ block.super }}
@@ -70,30 +73,7 @@
             </div>
 
 
-{% block messages %}
-    <div style="position: absolute; z-index: 10000;">
-        {% for message in messages %}
-            {% if message.tags %}
-                {% if message.tags == 'error' %}
-                    <div class="alert alert-danger">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-{{ message.tags }}">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ message }}{{ message.tag }}
-                    </div>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-{% endblock %}
-
-<div id="alertsection" style="position: absolute; z-index: 10000"></div>
-
-
- <div id="toolbar" class="navbar-default">
+    <div id="toolbar" class="navbar-default">
 
                 <form style="float: left;" action="{% url 'u:DeleteSong' song.id %}">
                     <button type="submit" class="gray btn" style="color: #fff; background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%); border-color: #b92c28;">
@@ -102,7 +82,7 @@
                </form>
 
 
-               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+               <form id="SaveSongForm" style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
                     <button class="gray" onclick="
                         while (document.getElementById('savesongtitle').getAttribute('value') == '')
                             {
@@ -197,9 +177,7 @@
                 ">
                    Replay
                </button>
-
-
-           </div>
+    </div>
 
 
 
@@ -219,10 +197,10 @@
              </div>
            </div>
 
-           <div id="canvas" >
-           </div>
+           <div id="canvas"></div>
            <pre hidden id="json" style="overflow:auto;position:absolute; top:100px; right:100px; width:600; height:500;background:white;border:1px solid gray"></pre>
            <audio id="audio" preload="none" src=""></audio>
+
 
 
 <script>
@@ -260,7 +238,6 @@ $.ajaxSetup({
 
     $('#SaveSongForm').on("submit", function(event) {
         event.preventDefault();
-        console.log('hi');
         $.ajax({
             url : "{% url 'u:SaveSong' %}",
             type : 'POST',
@@ -270,23 +247,12 @@ $.ajaxSetup({
                 saveseed : document.getElementById('saveseed').getAttribute('value')
             },
             success : function() {
-            $("#alertsection").append(" <div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Song Saved</div>");
+            $("#alertsection").append(" <div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Song Saved</div>");
             },
         });
 
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

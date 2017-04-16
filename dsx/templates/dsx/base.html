@@ -5,8 +5,23 @@
         <style>body {padding-top: 50px}</style>
     {% endblock %}
     {% block messages %}
-        <div class="col-xs-12">
-            {{ block.super }}
+        {{ block.super }}
+        <div id="alertsection" class="col-xs-12" style="position: absolute; z-index: 10000;">
+            {% for message in messages %}
+                {% if message.tags %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-{{ message.tags }} fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ message }}{{ message.tag }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         </div>
     {% endblock %}
     {% block content%}
