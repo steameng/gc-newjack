@@ -13,11 +13,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            {% if request.user.is_authenticated %}
-            <li id="nav_home"><a href="{% url 'u:Home' %}">{{ request.user }}</a></li>
-            <li><a href="{% url 'u:USongNew' %}">New Song</a></li>
 
-              <li class="dropdown">
+            {% if request.user.is_authenticated %}
+            <li id="nav_uhome"><a href="{% url 'u:Home' %}">{{ request.user }}</a></li>
+            <li id="nav_newsong"><a href="{% url 'u:USongNew' %}">New Song</a></li>
+
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{% url 'u:Home' %}">Media</a></li>
@@ -31,10 +32,12 @@
               </ul>
             </li>
             {% endif %}
+
+
             {% if not request.user.is_authenticated %}
-              <li><a href="{% url 'dsx:Home' %}">Get Started</a></li>
-              <li><a href="{% url 'dsx:About' %}">About</a></li>
-              <li><a href="{% url 'dsx:Contact' %}">Contact</a></li>
+              <li id="nav_getstarted"><a href="{% url 'dsx:Home' %}">Get Started</a></li>
+              <li id="nav_about"><a href="{% url 'dsx:About' %}">About</a></li>
+              <li id="nav_contact"><a href="{% url 'dsx:Contact' %}">Contact</a></li>
             {% endif %}
 
           </ul>
@@ -42,7 +45,7 @@
             {% if request.user.is_authenticated %}
               <li><a href="{% url 'auth_logout' %}">Logout</a></li>
             {% else %}
-              <li><a href="{% url 'auth_login' %}">Login</a></li>
+              <li id="nav_login"><a href="{% url 'auth_login' %}">Login</a></li>
               <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
             {% endif %}
           </ul>
