@@ -76,8 +76,30 @@
             </div>
         </div>
 
+{% block messages %}
+    <div id="alertsection" style="position: absolute; z-index: 10000;">
+        {% for message in messages %}
+
+            {% if message.tags %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}{{ message.tag }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+        {% endfor %}
+    </div>
+{% endblock %}
+
            <div id="toolbar" class="navbar-default">
-               <form action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+               <form action="{% url 'u:SaveNewSong' %}" method="POST">{% csrf_token %}
                 <button class="gray" onclick="
                 while (document.getElementById('savesongtitle').getAttribute('value') == '')
 			        {

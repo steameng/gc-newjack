@@ -25,20 +25,7 @@
 
     <body>
 
-    {% block messages %}
-    <div>
-        {% for message in messages %}
-            {% if message.tags %}
-                {% if message.tags == 'error' %}
-                    <div class="alert alert-danger">{{ message }}</div>
-                {% else %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {{ message.tag }}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-        </div>
-    {% endblock %}
+
 
     {% block content %}
     {{ block.super }}

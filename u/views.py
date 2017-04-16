@@ -23,7 +23,10 @@ from algorythm import getwavs
 
 import logging
 # import os
-import cloudstorage as gcs
+try:
+    import cloudstorage as gcs
+except:
+    pass
 # import webapp2
 # from google.appengine.api import app_identity
 
@@ -252,7 +255,32 @@ class SaveSong(View):
             instance.song_seed = song_seed
             instance.save()
 
+            # messages.success(request, "Song Updated")
+        # Create if doesn't exist
+        except UMusic.DoesNotExist:
+            instance = UMusic(song_title=song_title, song_json=song_json, song_seed=song_seed, user=request.user)
+            instance.save()
+
+            # messages.success(request, "Song Saved")
+        return HttpResponse()
+        # return redirect('u:USong', song_id=instance.id)
+
+class SaveNewSong(View):
+    '''Saves Song and either Creates or Updates song in DB'''
+
+    def post(self, request):
+        song_title = request.POST['savesongtitle']
+        song_json = json.dumps(request.POST['savejson'])
+        song_seed = request.POST['saveseed']
+        # Update
+        try:
+            instance = UMusic.objects.get(song_title=song_title, user=request.user)
+            instance.song_json = song_json
+            instance.song_seed = song_seed
+            instance.save()
+
             messages.success(request, "Song Updated")
+
         # Create if doesn't exist
         except UMusic.DoesNotExist:
             instance = UMusic(song_title=song_title, song_json=song_json, song_seed=song_seed, user=request.user)
@@ -260,7 +288,6 @@ class SaveSong(View):
 
             messages.success(request, "Song Saved")
         return redirect('u:USong', song_id=instance.id)
-
 
 
 class UploadSongFile(View):

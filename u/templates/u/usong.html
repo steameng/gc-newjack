@@ -71,21 +71,26 @@
 
 
 {% block messages %}
+    <div style="position: absolute; z-index: 10000;">
         {% for message in messages %}
-            <a style="position: absolute; top: 0px; z-index: 10000; right: 5%;" class="btn" onclick="
-                $('.alert').click(function () {$(this).parent().remove(); });
-                ">
             {% if message.tags %}
                 {% if message.tags == 'error' %}
-                    <div class="alert alert-danger">{{ message }}</div>
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}
+                    </div>
                 {% else %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}{{ message.tag }}</div>
+                    <div class="alert alert-{{ message.tags }}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}{{ message.tag }}
+                    </div>
                 {% endif %}
             {% endif %}
-            </a>
         {% endfor %}
-    {% endblock %}
+    </div>
+{% endblock %}
 
+<div id="alertsection" style="position: absolute; z-index: 10000"></div>
 
 
  <div id="toolbar" class="navbar-default">
@@ -117,7 +122,7 @@
                     <input id="saveseed" type="hidden" value="{{ song.song_seed }}" name="saveseed"/>
                </form>
 
-               <form style="float: left;" action="{% url 'u:SaveSong' %}" method="POST">{% csrf_token %}
+               <form style="float: left;" action="{% url 'u:SaveNewSong' %}" method="POST">{% csrf_token %}
                 <button class="gray" onclick="
                 var songName = prompt('Save Song', document.getElementById('savenewsongtitle').getAttribute('value'));
                 if (songName)
@@ -194,12 +199,7 @@
                </button>
 
 
-
-
            </div>
-
-
-
 
 
 
@@ -225,6 +225,57 @@
            <audio id="audio" preload="none" src=""></audio>
 
 
+<script>
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
+
+    $('#SaveSongForm').on("submit", function(event) {
+        event.preventDefault();
+        console.log('hi');
+        $.ajax({
+            url : "{% url 'u:SaveSong' %}",
+            type : 'POST',
+            data : {
+                savesongtitle: document.getElementById('savesongtitle').getAttribute('value'),
+                savejson : document.getElementById('savejson').getAttribute('value'),
+                saveseed : document.getElementById('saveseed').getAttribute('value')
+            },
+            success : function() {
+            $("#alertsection").append(" <div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Song Saved</div>");
+            },
+        });
+
+    });
+</script>
 
 
 
