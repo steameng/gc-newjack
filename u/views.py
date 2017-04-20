@@ -67,7 +67,7 @@ def playsong(request, song_id, song_seed):
     '''Grabs current song to get json.
      Gets seed from last page seed value and magic'''
     song = get_object_or_404(UMusic, user=request.user, id=song_id)
-    song_json = json.loads(song.song_json)
+    song_json = json.loads(json.loads(song.song_json))
 
     infiles = getwavs(song_json, song_seed) # get paths from algorythm
 
@@ -121,7 +121,7 @@ class USong(View):
             return redirect("Login")
         umediauploadform = UMediaUploadForm()
         song = get_object_or_404(UMusic, user=request.user, id=song_id)
-        song_json = song.song_json
+        song_json = json.loads(song.song_json)
         songfiles = UMedia.objects.filter(user=request.user)
 
         context= {
@@ -221,7 +221,7 @@ class SaveSong(View):
             messages.info(request, "You have to Login")
             return redirect("Login")
         song_title = request.POST['savesongtitle']
-        song_json = request.POST['savejson']
+        song_json = json.dumps(request.POST['savejson'])
         song_seed = request.POST['saveseed']
         # Update
         try:
